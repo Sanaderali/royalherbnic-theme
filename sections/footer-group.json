@@ -5,13 +5,34 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "menu": { "type": "menu", "settings": { "heading": "Shop", "menu": "footer" } },
-        "promise": { "type": "text", "settings": {} },
-        "newsletter": { "type": "newsletter", "settings": {} }
+        "shop": {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop",
+            "menu": "main-menu"
+          }
+        },
+        "help": {
+          "type": "menu",
+          "settings": {
+            "heading": "Help",
+            "menu": "footer"
+          }
+        },
+        "visit": {
+          "type": "text",
+          "settings": {}
+        }
       },
-      "block_order": ["menu", "promise", "newsletter"],
+      "block_order": [
+        "shop",
+        "help",
+        "visit"
+      ],
       "settings": {}
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }

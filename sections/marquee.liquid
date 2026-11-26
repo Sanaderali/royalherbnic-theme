@@ -1,0 +1,34 @@
+<section class="marquee marquee--{{ section.settings.style }}" style="--marquee-speed: {{ section.settings.speed }}s;">
+  <div class="marquee__track">
+    {%- for i in (1..2) -%}
+      <div class="marquee__group"{% if i == 2 %} aria-hidden="true"{% endif %}>
+        {%- for block in section.blocks -%}
+          <span class="marquee__item" {% if i == 1 %}{{ block.shopify_attributes }}{% endif %}>{{ block.settings.text }}</span>
+          <span class="marquee__sep">{% render 'icon', name: 'leaf' %}</span>
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scrolling text",
+  "settings": [
+    { "type": "select", "id": "style", "label": "Style", "options": [{ "value": "dark", "label": "Dark" }, { "value": "light", "label": "Light" }, { "value": "gold", "label": "Gold" }], "default": "dark" },
+    { "type": "range", "id": "speed", "label": "Speed (seconds per loop)", "min": 10, "max": 60, "step": 5, "default": 30 }
+  ],
+  "blocks": [{ "type": "text", "name": "Text", "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "Wild harvested" }] }],
+  "max_blocks": 10,
+  "presets": [{
+    "name": "Scrolling text",
+    "blocks": [
+      { "type": "text", "settings": { "text": "Wild harvested" } },
+      { "type": "text", "settings": { "text": "Small batch" } },
+      { "type": "text", "settings": { "text": "Lab tested" } },
+      { "type": "text", "settings": { "text": "No fillers" } },
+      { "type": "text", "settings": { "text": "Ethically sourced" } }
+    ]
+  }]
+}
+{% endschema %}

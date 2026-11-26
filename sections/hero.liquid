@@ -1,38 +1,88 @@
-<section class="hero hero--{{ section.settings.height }}" style="--overlay: {{ section.settings.overlay | divided_by: 100.0 }};">
-  <div class="hero__media">
-    {%- if section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 2000, 2400', sizes: '100vw', fetchpriority: 'high', loading: 'eager', alt: section.settings.image.alt | escape }}
-    {%- else -%}
-      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' }}
-    {%- endif -%}
-  </div>
-  <div class="page-width hero__content hero__content--{{ section.settings.align }}">
-    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-    {%- if section.settings.heading != blank -%}<h1 class="hero__heading">{{ section.settings.heading }}</h1>{%- endif -%}
-    {%- if section.settings.text != blank -%}<div class="hero__text rte">{{ section.settings.text }}</div>{%- endif -%}
-    <div class="hero__buttons">
-      {%- if section.settings.button_label != blank -%}<a class="button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }}</a>{%- endif -%}
-      {%- if section.settings.button2_label != blank -%}<a class="button button--ghost" href="{{ section.settings.button2_link }}">{{ section.settings.button2_label }}</a>{%- endif -%}
+{%- liquid
+  assign s = section.settings
+  assign heading = s.heading
+  if s.heading_italic != blank
+    assign italic = '<em>' | append: s.heading_italic | append: '</em>'
+    assign heading = heading | replace: s.heading_italic, italic
+  endif
+-%}
+<section class="hero hero--{{ s.layout }} hero--{{ s.height }}" style="--overlay: {{ s.overlay | divided_by: 100.0 }};" data-hero>
+  {%- if s.layout == 'fullbleed' -%}
+    <div class="hero__media">
+      {%- if s.video_url != blank -%}
+        <video autoplay muted loop playsinline preload="metadata"{% if s.image != blank %} poster="{{ s.image | image_url: width: 1600 }}"{% endif %}>
+          <source src="{{ s.video_url }}" type="video/mp4">
+        </video>
+      {%- elsif s.image != blank -%}
+        {{ s.image | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 2000, 2400', sizes: '100vw', fetchpriority: 'high', loading: 'eager', alt: s.image.alt, class: 'hero__img' }}
+      {%- else -%}
+        {% render 'botanical-art', variant: 'hero' %}
+      {%- endif -%}
     </div>
+  {%- endif -%}
+
+  <div class="page-width hero__grid">
+    <div class="hero__content hero__content--{{ s.align }}">
+      {%- if s.eyebrow != blank -%}<p class="eyebrow reveal">{{ s.eyebrow }}</p>{%- endif -%}
+      {%- if heading != blank -%}<h1 class="hero__heading display reveal">{{ heading }}</h1>{%- endif -%}
+      {%- if s.text != blank -%}<div class="hero__text rte reveal">{{ s.text }}</div>{%- endif -%}
+      <div class="hero__buttons reveal">
+        {%- if s.button_label != blank -%}<a class="button button--lg" href="{{ s.button_link | default: routes.all_products_collection_url }}">{{ s.button_label }}{% render 'icon', name: 'arrow' %}</a>{%- endif -%}
+        {%- if s.button2_label != blank -%}<a class="button button--ghost button--lg" href="{{ s.button2_link }}">{{ s.button2_label }}</a>{%- endif -%}
+      </div>
+      {%- if s.rating_text != blank -%}
+        <div class="hero__proof reveal">
+          <span class="stars">{%- for i in (1..5) -%}{% render 'icon', name: 'star' %}{%- endfor -%}</span>
+          <span>{{ s.rating_text }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if s.layout == 'split' -%}
+      <div class="hero__visual reveal">
+        <div class="hero__arch">
+          {%- if s.image != blank -%}
+            {{ s.image | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 45vw, 100vw', fetchpriority: 'high', loading: 'eager', alt: s.image.alt }}
+          {%- else -%}
+            {% render 'botanical-art', variant: 'arch' %}
+          {%- endif -%}
+        </div>
+        {%- if s.image_2 != blank -%}
+          <div class="hero__float">{{ s.image_2 | image_url: width: 600 | image_tag: loading: 'eager', widths: '300, 600', sizes: '240px' }}</div>
+        {%- endif -%}
+        {%- if s.badge_text != blank -%}
+          <div class="hero__badge" aria-hidden="true">
+            <svg viewBox="0 0 120 120"><defs><path id="badgeCircle-{{ section.id }}" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#badgeCircle-{{ section.id }}">{{ s.badge_text | escape }}</textPath></text></svg>
+            {% render 'icon', name: 'leaf' %}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Hero banner",
+  "name": "Hero",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "range", "id": "overlay", "label": "Image overlay", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 30 },
-    { "type": "select", "id": "height", "label": "Height", "options": [{ "value": "small", "label": "Small" }, { "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }], "default": "large" },
-    { "type": "select", "id": "align", "label": "Content alignment", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }], "default": "left" },
-    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Pure · Natural · Time-honoured" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Wellness, the way nature intended" },
-    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Thoughtfully sourced herbs and botanical blends for everyday balance.</p>" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop the collection" },
+    { "type": "select", "id": "layout", "label": "Layout", "options": [{ "value": "split", "label": "Editorial split" }, { "value": "fullbleed", "label": "Full-width image or video" }], "default": "split" },
+    { "type": "image_picker", "id": "image", "label": "Main image" },
+    { "type": "image_picker", "id": "image_2", "label": "Floating product image (split layout)" },
+    { "type": "url", "id": "video_url", "label": "Background video MP4 URL (full-width layout)", "info": "Upload the MP4 in Content › Files and paste its link." },
+    { "type": "range", "id": "overlay", "label": "Image overlay", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 35 },
+    { "type": "select", "id": "height", "label": "Height", "options": [{ "value": "medium", "label": "Medium" }, { "value": "large", "label": "Large" }, { "value": "full", "label": "Full screen" }], "default": "large" },
+    { "type": "select", "id": "align", "label": "Text alignment", "options": [{ "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }], "default": "left" },
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Est. herbal apothecary" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The ancient art of herbal wellness" },
+    { "type": "text", "id": "heading_italic", "label": "Words to show in italic", "default": "herbal wellness" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Small-batch botanicals, wild-harvested and blended by hand to restore your natural balance.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Discover the collection" },
     { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "text", "id": "button2_label", "label": "Second button label", "default": "Our story" },
-    { "type": "url", "id": "button2_link", "label": "Second button link" }
+    { "type": "text", "id": "button2_label", "label": "Second button label", "default": "Our philosophy" },
+    { "type": "url", "id": "button2_link", "label": "Second button link" },
+    { "type": "text", "id": "rating_text", "label": "Social proof text", "default": "Loved by 10,000+ customers" },
+    { "type": "text", "id": "badge_text", "label": "Rotating badge text", "default": "100% NATURAL · ETHICALLY SOURCED · " }
   ],
-  "presets": [{ "name": "Hero banner" }]
+  "presets": [{ "name": "Hero" }]
 }
 {% endschema %}

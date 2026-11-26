@@ -1,53 +1,110 @@
-<header class="header{% if section.settings.sticky %} header--sticky{% endif %}" data-header>
-  <div class="page-width header__inner">
-    <button class="header__icon header__menu-toggle" type="button" aria-label="{{ 'general.menu' | t }}" aria-expanded="false" aria-controls="MobileNav" data-menu-toggle>
+{%- liquid
+  assign transparent = false
+  if section.settings.transparent_home and template.name == 'index'
+    assign transparent = true
+  endif
+-%}
+<header class="header{% if transparent %} header--transparent{% endif %}" data-header{% if transparent %} data-transparent{% endif %}>
+  <div class="page-width header__top">
+    <button class="header__circle header__menu-toggle" type="button" aria-label="{{ 'general.menu' | t }}" aria-expanded="false" aria-controls="MobileNav" data-menu-toggle>
       {% render 'icon', name: 'menu' %}
     </button>
 
     <a href="{{ routes.root_url }}" class="header__logo">
       {%- if settings.logo != blank -%}
-        {{ settings.logo | image_url: width: 600 | image_tag: alt: shop.name, style: 'width:' | append: settings.logo_width | append: 'px', widths: '150, 300, 600', sizes: '300px' }}
+        {%- assign logo_style = 'width:' | append: settings.logo_width | append: 'px' -%}
+        {{ settings.logo | image_url: width: 600 | image_tag: alt: shop.name, style: logo_style, widths: '150, 300, 600', sizes: '300px', class: 'header__logo-img' }}
+        {%- if transparent and section.settings.logo_light != blank -%}
+          {{ section.settings.logo_light | image_url: width: 600 | image_tag: alt: shop.name, style: logo_style, widths: '150, 300, 600', sizes: '300px', class: 'header__logo-img header__logo-img--light' }}
+        {%- endif -%}
       {%- else -%}
         <span class="header__wordmark">{{ shop.name }}</span>
       {%- endif -%}
     </a>
 
-    <nav class="header__nav" aria-label="{{ 'general.main_navigation' | t }}">
-      <ul class="header__menu">
-        {%- for link in section.settings.menu.links -%}
-          <li class="header__menu-item{% if link.links != blank %} has-dropdown{% endif %}">
-            <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
-            {%- if link.links != blank -%}
-              <ul class="header__dropdown">
-                {%- for child in link.links -%}
-                  <li><a href="{{ child.url }}">{{ child.title }}</a></li>
-                {%- endfor -%}
-              </ul>
-            {%- endif -%}
-          </li>
-        {%- endfor -%}
-      </ul>
-    </nav>
+    <form action="{{ routes.search_url }}" method="get" role="search" class="header__search" data-header-search>
+      <button type="submit" class="header__search-btn" aria-label="{{ 'general.search' | t }}">{% render 'icon', name: 'search' %}</button>
+      <label class="visually-hidden" for="HeaderSearch">{{ 'general.search' | t }}</label>
+      <input id="HeaderSearch" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ section.settings.search_placeholder | default: 'search.placeholder' | t }}" autocomplete="off" data-predictive-input>
+      <input type="hidden" name="type" value="product">
+      <input type="hidden" name="options[prefix]" value="last">
+      <div class="header__search-results" data-predictive-results hidden></div>
+    </form>
 
-    <div class="header__icons">
-      <a href="{{ routes.search_url }}" class="header__icon" aria-label="{{ 'general.search' | t }}">{% render 'icon', name: 'search' %}</a>
-      {%- if shop.customer_accounts_enabled -%}
-        <a href="{{ routes.account_url }}" class="header__icon header__icon--account" aria-label="{{ 'general.account' | t }}">{% render 'icon', name: 'account' %}</a>
+    <div class="header__actions">
+      {%- if section.settings.show_language and localization.available_languages.size > 1 -%}
+        {%- form 'localization', class: 'header__lang', id: 'HeaderLanguageForm' -%}
+          <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}" data-lang-input>
+          <div class="lang">
+            <button type="button" class="header__pill" aria-expanded="false" aria-controls="LangList" data-lang-toggle>
+              {% render 'icon', name: 'globe' %}
+              <span>{{ localization.language.endonym_name | capitalize }}</span>
+              {% render 'icon', name: 'chevron' %}
+            </button>
+            <ul id="LangList" class="lang__list" hidden>
+              {%- for language in localization.available_languages -%}
+                <li>
+                  <button type="button" class="lang__option" lang="{{ language.iso_code }}" data-lang-code="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} aria-current="true"{% endif %}>
+                    {{ language.endonym_name | capitalize }}
+                    {%- if language.iso_code == localization.language.iso_code -%}{% render 'icon', name: 'check' %}{%- endif -%}
+                  </button>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endform -%}
       {%- endif -%}
-      <a href="{{ routes.cart_url }}" class="header__icon header__cart" aria-label="{{ 'general.cart' | t }}">
-        {% render 'icon', name: 'cart' %}
+
+      <a href="{{ routes.cart_url }}" class="header__circle header__cart" aria-label="{{ 'general.cart' | t }}" data-open-cart>
+        {% render 'icon', name: 'bag' %}
         <span class="header__cart-count" data-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
       </a>
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}" class="header__circle header__account" aria-label="{{ 'general.account' | t }}">{% render 'icon', name: 'account' %}</a>
+      {%- endif -%}
     </div>
   </div>
 
-  <nav id="MobileNav" class="mobile-nav" hidden aria-label="{{ 'general.main_navigation' | t }}">
-    <ul>
+  {%- if section.settings.menu.links.size > 0 -%}
+  <nav class="header__nav" aria-label="{{ 'general.main_navigation' | t }}">
+    <ul class="page-width header__menu">
       {%- for link in section.settings.menu.links -%}
-        <li>
-          <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- if link.links != blank -%}
-            <ul>
+        {%- liquid
+          assign is_mega = false
+          for child in link.links
+            if child.links != blank
+              assign is_mega = true
+            endif
+          endfor
+        -%}
+        <li class="header__menu-item{% if link.links != blank %} has-dropdown{% endif %}{% if is_mega %} has-mega{% endif %}">
+          <a href="{{ link.url }}"{% if link.current or link.child_active %} aria-current="page"{% endif %}>
+            {{ link.title }}
+            {%- if link.links != blank -%}{% render 'icon', name: 'chevron' %}{%- endif -%}
+          </a>
+          {%- if is_mega -%}
+            <div class="mega">
+              <div class="page-width mega__inner{% if section.settings.mega_image == blank %} mega__inner--full{% endif %}">
+                <div class="mega__cols">
+                  {%- for child in link.links -%}
+                    <div class="mega__col">
+                      <a class="mega__heading" href="{{ child.url }}">{{ child.title }}</a>
+                      {%- if child.links != blank -%}
+                        <ul>{%- for grand in child.links -%}<li><a href="{{ grand.url }}">{{ grand.title }}</a></li>{%- endfor -%}</ul>
+                      {%- endif -%}
+                    </div>
+                  {%- endfor -%}
+                </div>
+                {%- if section.settings.mega_image != blank -%}
+                  <a class="mega__feature" href="{{ section.settings.mega_link | default: link.url }}">
+                    {{ section.settings.mega_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 900', sizes: '420px' }}
+                    <span class="mega__feature-label">{{ section.settings.mega_caption }}</span>
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- elsif link.links != blank -%}
+            <ul class="header__dropdown">
               {%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}
             </ul>
           {%- endif -%}
@@ -55,14 +112,59 @@
       {%- endfor -%}
     </ul>
   </nav>
+  {%- endif -%}
+
+  <div id="MobileNav" class="mobile-nav" hidden>
+    <div class="mobile-nav__head">
+      <span class="header__wordmark">{{ shop.name }}</span>
+      <button type="button" class="header__circle" aria-label="{{ 'general.close' | t }}" data-menu-close>{% render 'icon', name: 'close' %}</button>
+    </div>
+    <nav aria-label="{{ 'general.main_navigation' | t }}">
+      <ul class="mobile-nav__list">
+        {%- for link in section.settings.menu.links -%}
+          <li>
+            {%- if link.links != blank -%}
+              <details>
+                <summary>{{ link.title }}{% render 'icon', name: 'chevron' %}</summary>
+                <ul>
+                  <li><a href="{{ link.url }}">{{ 'general.view_all' | t }}</a></li>
+                  {%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}
+                </ul>
+              </details>
+            {%- else -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+    {%- if localization.available_languages.size > 1 -%}
+      <div class="mobile-nav__langs">
+        {% render 'icon', name: 'globe' %}
+        {%- for language in localization.available_languages -%}
+          <button type="button" class="mobile-nav__lang{% if language.iso_code == localization.language.iso_code %} is-active{% endif %}" lang="{{ language.iso_code }}" data-lang-code="{{ language.iso_code }}">{{ language.endonym_name | capitalize }}</button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    {%- if shop.customer_accounts_enabled -%}<a class="button button--outline button--full" href="{{ routes.account_url }}">{{ 'general.account' | t }}</a>{%- endif -%}
+  </div>
 </header>
 
 {% schema %}
 {
   "name": "Header",
+  "class": "section-header",
   "settings": [
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
-    { "type": "checkbox", "id": "sticky", "label": "Sticky header", "default": true }
+    { "type": "text", "id": "search_placeholder", "label": "Search placeholder", "info": "Leave empty to use the translated default." },
+    { "type": "checkbox", "id": "show_language", "label": "Show language switcher", "info": "Appears once a second language (e.g. Urdu) is published in Settings › Languages.", "default": true },
+    { "type": "checkbox", "id": "transparent_home", "label": "Transparent over home page hero", "default": false },
+    { "type": "image_picker", "id": "logo_light", "label": "Light logo for transparent header" },
+    { "type": "header", "content": "Mega menu" },
+    { "type": "paragraph", "content": "Menu items with 3 levels of links open as a full-width mega menu." },
+    { "type": "image_picker", "id": "mega_image", "label": "Featured image" },
+    { "type": "text", "id": "mega_caption", "label": "Featured caption", "default": "The Botanical Collection" },
+    { "type": "url", "id": "mega_link", "label": "Featured link" }
   ]
 }
 {% endschema %}

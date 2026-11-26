@@ -1,30 +1,115 @@
 {
   "general": {
-    "menu": "Menu", "search": "Search", "account": "Account", "cart": "Cart",
-    "main_navigation": "Main navigation", "view_all": "View all", "pagination": "Pagination",
-    "tagged_with": "Tagged \"{{ tags }}\"", "page": "Page {{ page }}"
+    "menu": "Menu",
+    "search": "Search",
+    "account": "Account",
+    "cart": "Cart",
+    "main_navigation": "Main navigation",
+    "view_all": "View all",
+    "pagination": "Pagination",
+    "tagged_with": "Tagged \"{{ tags }}\"",
+    "page": "Page {{ page }}",
+    "close": "Close",
+    "home": "Home",
+    "previous": "Previous",
+    "next": "Next",
+    "play_video": "Play video",
+    "verified_buyer": "Verified buyer"
   },
-  "accessibility": { "skip_to_content": "Skip to content" },
+  "accessibility": {
+    "skip_to_content": "Skip to content"
+  },
   "products": {
-    "add_to_cart": "Add to cart", "choose_options": "Choose options", "sold_out": "Sold out", "sale": "Sale",
-    "quantity": "Quantity", "from_price": "From {{ price }}", "example": "Example product",
-    "view_image": "View image {{ index }}", "added": "Added to your cart", "unavailable": "Unavailable"
+    "add_to_cart": "Add to cart",
+    "choose_options": "Choose options",
+    "sold_out": "Sold out",
+    "sale": "Sale",
+    "quantity": "Quantity",
+    "from_price": "From {{ price }}",
+    "example": "Example product",
+    "view_image": "View image {{ index }}",
+    "added": "Added to your cart",
+    "unavailable": "Unavailable",
+    "new": "New",
+    "bestseller": "Bestseller",
+    "tax_note": "Tax included. Shipping calculated at checkout.",
+    "reviews_count": {
+      "one": "{{ count }} review",
+      "other": "{{ count }} reviews"
+    }
   },
   "collections": {
-    "product_count": { "one": "{{ count }} product", "other": "{{ count }} products" },
-    "sort_by": "Sort by", "apply": "Apply", "clear": "Clear filters", "empty": "No products found.",
-    "all_title": "All collections"
+    "product_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    },
+    "sort_by": "Sort by",
+    "apply": "Apply",
+    "clear": "Clear filters",
+    "empty": "No products found.",
+    "all_title": "All collections",
+    "filter": "Filter"
   },
   "cart": {
-    "title": "Your cart", "remove": "Remove", "note": "Order note", "subtotal": "Subtotal",
-    "taxes_note": "Taxes and shipping calculated at checkout.", "update": "Update", "checkout": "Check out",
-    "empty": "Your cart is empty.", "continue": "Continue shopping"
+    "title": "Your cart",
+    "remove": "Remove",
+    "note": "Order note",
+    "subtotal": "Subtotal",
+    "taxes_note": "Taxes and shipping calculated at checkout.",
+    "update": "Update",
+    "checkout": "Check out",
+    "empty": "Your cart is empty.",
+    "continue": "Continue shopping",
+    "shipping_remaining_html": "You're <strong>{{ amount }}</strong> away from free shipping",
+    "shipping_unlocked": "You've unlocked free shipping ✓",
+    "pairs_well": "Pairs well with",
+    "view_cart": "View full cart"
   },
-  "newsletter": { "email": "Email address", "subscribe": "Subscribe", "success": "Thanks for subscribing!" },
-  "contact": { "name": "Name", "email": "Email", "phone": "Phone", "message": "Message", "send": "Send", "success": "Thanks! We'll get back to you soon." },
-  "search": { "title": "Search", "placeholder": "Search herbs, blends, teas…", "results_count": { "one": "{{ count }} result for \"{{ terms }}\"", "other": "{{ count }} results for \"{{ terms }}\"" } },
-  "errors": { "not_found": "This page wandered off into the garden." },
-  "blogs": { "back": "Back to the journal" },
-  "password": { "label": "Password", "enter": "Enter" },
-  "gift_card": { "title": "Gift card", "expires": "Expires {{ date }}", "shop": "Start shopping" }
+  "newsletter": {
+    "email": "Email address",
+    "subscribe": "Subscribe",
+    "success": "Thanks for subscribing!",
+    "fine_print": "By subscribing you agree to receive emails. Unsubscribe anytime."
+  },
+  "contact": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "send": "Send",
+    "success": "Thanks! We'll get back to you soon."
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search herbs, blends, teas…",
+    "results_count": {
+      "one": "{{ count }} result for \"{{ terms }}\"",
+      "other": "{{ count }} results for \"{{ terms }}\""
+    },
+    "suggestions": "Suggestions",
+    "collections": "Collections",
+    "products": "Products",
+    "no_results": "No products found for \"{{ terms }}\"",
+    "view_all": "View all results for \"{{ terms }}\""
+  },
+  "errors": {
+    "not_found": "This page wandered off into the garden."
+  },
+  "blogs": {
+    "back": "Back to the journal"
+  },
+  "password": {
+    "label": "Password",
+    "enter": "Enter"
+  },
+  "gift_card": {
+    "title": "Gift card",
+    "expires": "Expires {{ date }}",
+    "shop": "Start shopping"
+  },
+  "footer": {
+    "follow": "Follow",
+    "add_social": "Add social links in Theme settings",
+    "rights": "All rights reserved."
+  }
 }

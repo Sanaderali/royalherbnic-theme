@@ -1,51 +1,63 @@
 <footer class="footer">
-  <div class="page-width footer__grid">
-    <div class="footer__brand">
-      <p class="footer__wordmark">{{ shop.name }}</p>
-      {%- if section.settings.tagline != blank -%}<div class="footer__tagline rte">{{ section.settings.tagline }}</div>{%- endif -%}
-      <ul class="footer__social">
-        {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a></li>{%- endif -%}
-        {%- if settings.social_facebook != blank -%}<li><a href="{{ settings.social_facebook }}" target="_blank" rel="noopener">Facebook</a></li>{%- endif -%}
-        {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a></li>{%- endif -%}
-        {%- if settings.social_youtube != blank -%}<li><a href="{{ settings.social_youtube }}" target="_blank" rel="noopener">YouTube</a></li>{%- endif -%}
-      </ul>
+  <div class="footer__art" aria-hidden="true">{% render 'botanical-art', variant: 'footer' %}</div>
+  <div class="page-width">
+    <div class="footer__top">
+      <div class="footer__statement">
+        <p class="footer__wordmark">{{ shop.name }}</p>
+        {%- if section.settings.tagline != blank -%}<div class="footer__tagline">{{ section.settings.tagline }}</div>{%- endif -%}
+      </div>
+      {%- if section.settings.show_newsletter -%}
+        <div class="footer__newsletter">
+          <p class="footer__heading">{{ section.settings.newsletter_heading }}</p>
+          {%- form 'customer', id: 'FooterNewsletter', class: 'newsletter-form newsletter-form--line' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            {%- if form.posted_successfully? -%}
+              <p class="form-success">{{ 'newsletter.success' | t }}</p>
+            {%- else -%}
+              <label class="visually-hidden" for="FooterEmail">{{ 'newsletter.email' | t }}</label>
+              <input id="FooterEmail" type="email" name="contact[email]" required placeholder="{{ 'newsletter.email' | t }}" autocomplete="email">
+              <button type="submit" aria-label="{{ 'newsletter.subscribe' | t }}">{% render 'icon', name: 'arrow' %}</button>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      {%- endif -%}
     </div>
 
-    {%- for block in section.blocks -%}
-      <div class="footer__col" {{ block.shopify_attributes }}>
-        {%- case block.type -%}
-          {%- when 'menu' -%}
-            <h2 class="footer__heading">{{ block.settings.heading | default: block.settings.menu.title }}</h2>
-            <ul class="footer__links">
-              {%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
-            </ul>
-          {%- when 'text' -%}
-            <h2 class="footer__heading">{{ block.settings.heading }}</h2>
-            <div class="rte">{{ block.settings.text }}</div>
-          {%- when 'newsletter' -%}
-            <h2 class="footer__heading">{{ block.settings.heading }}</h2>
-            {%- form 'customer', id: 'FooterNewsletter', class: 'newsletter-form' -%}
-              <input type="hidden" name="contact[tags]" value="newsletter">
-              {%- if form.posted_successfully? -%}
-                <p class="form-success">{{ 'newsletter.success' | t }}</p>
-              {%- else -%}
-                <label class="visually-hidden" for="FooterEmail">{{ 'newsletter.email' | t }}</label>
-                <input id="FooterEmail" type="email" name="contact[email]" required placeholder="{{ 'newsletter.email' | t }}" autocomplete="email">
-                <button type="submit" class="button">{{ 'newsletter.subscribe' | t }}</button>
-              {%- endif -%}
-            {%- endform -%}
-        {%- endcase -%}
+    <div class="footer__grid">
+      {%- for block in section.blocks -%}
+        <div class="footer__col" {{ block.shopify_attributes }}>
+          {%- case block.type -%}
+            {%- when 'menu' -%}
+              <p class="footer__heading">{{ block.settings.heading | default: block.settings.menu.title }}</p>
+              <ul class="footer__links">
+                {%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+              </ul>
+            {%- when 'text' -%}
+              <p class="footer__heading">{{ block.settings.heading }}</p>
+              <div class="rte footer__text">{{ block.settings.text }}</div>
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+      <div class="footer__col">
+        <p class="footer__heading">{{ 'footer.follow' | t }}</p>
+        <ul class="footer__links">
+          {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a></li>{%- endif -%}
+          {%- if settings.social_facebook != blank -%}<li><a href="{{ settings.social_facebook }}" target="_blank" rel="noopener">Facebook</a></li>{%- endif -%}
+          {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a></li>{%- endif -%}
+          {%- if settings.social_youtube != blank -%}<li><a href="{{ settings.social_youtube }}" target="_blank" rel="noopener">YouTube</a></li>{%- endif -%}
+          {%- if settings.social_instagram == blank and settings.social_facebook == blank and settings.social_tiktok == blank and settings.social_youtube == blank -%}<li class="muted-light">{{ 'footer.add_social' | t }}</li>{%- endif -%}
+        </ul>
       </div>
-    {%- endfor -%}
-  </div>
+    </div>
 
-  <div class="page-width footer__bottom">
-    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}. {{ powered_by_link }}</p>
-    {%- if section.settings.show_payment_icons -%}
-      <ul class="footer__payments">
-        {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>{%- endfor -%}
-      </ul>
-    {%- endif -%}
+    <div class="footer__bottom">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'footer.rights' | t }}</p>
+      {%- if section.settings.show_payment_icons -%}
+        <ul class="footer__payments">
+          {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>{%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
   </div>
 </footer>
 
@@ -53,30 +65,20 @@
 {
   "name": "Footer",
   "settings": [
-    { "type": "richtext", "id": "tagline", "label": "Brand tagline", "default": "<p>Herbal wellness, rooted in tradition and crafted with care.</p>" },
+    { "type": "textarea", "id": "tagline", "label": "Brand statement", "default": "Ancient herbal wisdom, thoughtfully prepared for modern rituals." },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter", "default": true },
+    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Join the herbal circle" },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
   ],
   "blocks": [
-    {
-      "type": "menu", "name": "Menu",
-      "settings": [
-        { "type": "text", "id": "heading", "label": "Heading" },
-        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
-      ]
-    },
-    {
-      "type": "text", "name": "Text",
-      "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Our promise" },
-        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Pure ingredients. Honest sourcing. Small batches.</p>" }
-      ]
-    },
-    {
-      "type": "newsletter", "name": "Newsletter", "limit": 1,
-      "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Join our herbal circle" }
-      ]
-    }
+    { "type": "menu", "name": "Menu", "settings": [
+      { "type": "text", "id": "heading", "label": "Heading" },
+      { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+    ] },
+    { "type": "text", "name": "Text", "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Visit us" },
+      { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Questions about a remedy? Our herbalists are happy to help.</p>" }
+    ] }
   ],
   "max_blocks": 4
 }

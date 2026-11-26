@@ -1,13 +1,113 @@
 {
   "sections": {
-    "hero": { "type": "hero", "settings": { "height": "medium", "eyebrow": "Our story", "heading": "Rooted in nature, guided by tradition", "text": "<p>Tell your brand's story here.</p>", "button_label": "Shop now", "button2_label": "" } },
-    "story": { "type": "image-with-text", "settings": { "eyebrow": "How it began", "button_label": "" } },
-    "values": { "type": "benefits", "settings": { "heading": "What we stand for" }, "blocks": {
-      "b1": { "type": "benefit", "settings": { "icon": "leaf", "title": "Purity", "text": "Only real herbs, nothing artificial." } },
-      "b2": { "type": "benefit", "settings": { "icon": "heart", "title": "Care", "text": "Made in small batches with attention." } },
-      "b3": { "type": "benefit", "settings": { "icon": "drop", "title": "Honesty", "text": "Clear labels and transparent sourcing." } }
-    }, "block_order": ["b1", "b2", "b3"] },
-    "main": { "type": "main-page", "settings": {} }
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "layout": "split",
+        "eyebrow": "Our story",
+        "heading": "Rooted in nature, guided by tradition",
+        "heading_italic": "guided by tradition",
+        "text": "<p>Tell your brand's story here.</p>",
+        "button_label": "Shop now",
+        "button2_label": "",
+        "rating_text": ""
+      }
+    },
+    "story": {
+      "type": "image-with-text",
+      "settings": {
+        "eyebrow": "How it began",
+        "button_label": ""
+      }
+    },
+    "values": {
+      "type": "benefits",
+      "settings": {
+        "heading": "What we stand for",
+        "style": "cards"
+      },
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "leaf",
+            "title": "Purity",
+            "text": "Only real herbs, nothing artificial."
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "heart",
+            "title": "Care",
+            "text": "Made in small batches with attention."
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "drop",
+            "title": "Honesty",
+            "text": "Clear labels and transparent sourcing."
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "process": {
+      "type": "process-steps",
+      "settings": {},
+      "blocks": {
+        "p0": {
+          "type": "step",
+          "settings": {
+            "title": "Ethically sourced",
+            "text": "Harvested from trusted growers at peak potency."
+          }
+        },
+        "p1": {
+          "type": "step",
+          "settings": {
+            "title": "Gently prepared",
+            "text": "Slow dried and ground to protect natural compounds."
+          }
+        },
+        "p2": {
+          "type": "step",
+          "settings": {
+            "title": "Lab tested",
+            "text": "Every batch is checked for purity and quality."
+          }
+        },
+        "p3": {
+          "type": "step",
+          "settings": {
+            "title": "Packed fresh",
+            "text": "Sealed in small batches and shipped to your door."
+          }
+        }
+      },
+      "block_order": [
+        "p0",
+        "p1",
+        "p2",
+        "p3"
+      ]
+    }
   },
-  "order": ["hero", "story", "values", "main"]
+  "order": [
+    "hero",
+    "story",
+    "values",
+    "process",
+    "main"
+  ]
 }

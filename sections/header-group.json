@@ -2,8 +2,46 @@
   "type": "header",
   "name": "Header group",
   "sections": {
-    "announcement": { "type": "announcement-bar", "settings": {} },
-    "header": { "type": "header", "settings": { "menu": "main-menu", "sticky": true } }
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "a1": {
+          "type": "message",
+          "settings": {
+            "text": "Complimentary shipping on orders over $50"
+          }
+        },
+        "a2": {
+          "type": "message",
+          "settings": {
+            "text": "Wild-harvested \u00b7 Small batch \u00b7 Lab tested"
+          }
+        },
+        "a3": {
+          "type": "message",
+          "settings": {
+            "text": "Join the herbal circle for 10% off your first order"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3"
+      ],
+      "settings": {}
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "transparent_home": false,
+        "show_language": true
+      }
+    }
   },
-  "order": ["announcement", "header"]
+  "order": [
+    "announcement",
+    "header"
+  ]
 }

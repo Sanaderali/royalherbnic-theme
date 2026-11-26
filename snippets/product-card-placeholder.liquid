@@ -1,0 +1,6 @@
+{%- for i in (1..count) -%}
+  <div class="card">
+    <div class="card__media">{{ 'product-' | append: i | placeholder_svg_tag: 'placeholder' }}</div>
+    <div class="card__body"><h3 class="card__title">{{ 'products.example' | t }}</h3><div class="price"><span class="price__current">{{ 2900 | money }}</span></div></div>
+  </div>
+{%- endfor -%}

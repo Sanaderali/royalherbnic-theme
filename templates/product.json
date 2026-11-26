@@ -3,25 +3,174 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": { "type": "vendor", "settings": {} },
-        "title": { "type": "title", "settings": {} },
-        "price": { "type": "price", "settings": {} },
-        "note": { "type": "text", "settings": {} },
-        "buy": { "type": "buy_buttons", "settings": { "show_dynamic_checkout": true } },
-        "description": { "type": "description", "settings": {} },
-        "ingredients": { "type": "collapsible", "settings": { "heading": "Ingredients" } },
-        "howto": { "type": "collapsible", "settings": { "heading": "How to use" } },
-        "shipping": { "type": "collapsible", "settings": { "heading": "Shipping & returns" } }
+        "vendor": {
+          "type": "vendor",
+          "settings": {}
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "subtitle": {
+          "type": "subtitle",
+          "settings": {}
+        },
+        "highlights": {
+          "type": "highlights",
+          "settings": {}
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "badges": {
+          "type": "badges",
+          "settings": {}
+        },
+        "trust": {
+          "type": "trust",
+          "settings": {}
+        },
+        "description": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "leaf",
+            "heading": "Description",
+            "open": true
+          }
+        },
+        "ingredients": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "mortar",
+            "heading": "Ingredients"
+          }
+        },
+        "howto": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "drop",
+            "heading": "How to use"
+          }
+        },
+        "shipping": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "truck",
+            "heading": "Shipping & returns"
+          }
+        }
       },
-      "block_order": ["vendor", "title", "price", "note", "buy", "description", "ingredients", "howto", "shipping"],
-      "settings": {}
+      "block_order": [
+        "vendor",
+        "title",
+        "rating",
+        "price",
+        "subtitle",
+        "highlights",
+        "buy",
+        "badges",
+        "trust",
+        "description",
+        "ingredients",
+        "howto",
+        "shipping"
+      ],
+      "settings": {
+        "sticky_bar": true
+      }
     },
-    "benefits": { "type": "benefits", "settings": { "heading": "" }, "blocks": {
-      "b1": { "type": "benefit", "settings": { "icon": "leaf", "title": "100% natural", "text": "No fillers, no artificial additives." } },
-      "b2": { "type": "benefit", "settings": { "icon": "shield", "title": "Quality tested", "text": "Every batch checked for purity." } },
-      "b3": { "type": "benefit", "settings": { "icon": "truck", "title": "Fast delivery", "text": "Packed with care and shipped quickly." } }
-    }, "block_order": ["b1", "b2", "b3"] },
-    "related": { "type": "featured-collection", "settings": { "heading": "You may also like", "collection": "all", "limit": 4 } }
+    "process": {
+      "type": "process-steps",
+      "blocks": {
+        "p0": {
+          "type": "step",
+          "settings": {
+            "title": "Measure",
+            "text": "Add one teaspoon to warm water, milk or a smoothie."
+          }
+        },
+        "p1": {
+          "type": "step",
+          "settings": {
+            "title": "Steep",
+            "text": "Let it rest for 3 to 5 minutes to release the botanicals."
+          }
+        },
+        "p2": {
+          "type": "step",
+          "settings": {
+            "title": "Enjoy daily",
+            "text": "Make it part of your morning or evening ritual."
+          }
+        }
+      },
+      "block_order": [
+        "p0",
+        "p1",
+        "p2"
+      ],
+      "settings": {
+        "eyebrow": "Your ritual",
+        "heading": "How to enjoy",
+        "scheme": "light"
+      }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Truly the best quality",
+            "author": "Amina R."
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Part of my daily ritual",
+            "quote": "The calming blend has become my evening ritual. Beautiful packaging and fast delivery too.",
+            "author": "Daniel K."
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "title": "I noticed the difference",
+            "quote": "Within a few weeks I felt more balanced. I love knowing exactly what's inside.",
+            "author": "Sara M."
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {
+        "scheme": "surface"
+      }
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {}
+    }
   },
-  "order": ["main", "benefits", "related"]
+  "order": [
+    "main",
+    "process",
+    "reviews",
+    "related"
+  ]
 }

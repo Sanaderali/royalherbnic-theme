@@ -1,28 +1,54 @@
-<section class="section page-width">
-  {%- if section.settings.heading != blank -%}<div class="section__header"><h2 class="section__title">{{ section.settings.heading }}</h2></div>{%- endif -%}
-  <div class="grid grid--{{ section.blocks.size | at_most: 4 | at_least: 2 }}">
-    {%- for block in section.blocks -%}
-      {%- assign c = block.settings.collection -%}
-      <a class="tile" href="{{ c.url | default: '#' }}" {{ block.shopify_attributes }}>
-        <div class="tile__media">
-          {%- if c.featured_image -%}
-            {{ c.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400, 600, 800', sizes: '(min-width: 990px) 25vw, 50vw' }}
-          {%- else -%}
-            {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'placeholder' }}
-          {%- endif -%}
-        </div>
-        <span class="tile__label">{{ c.title | default: 'Collection' }}</span>
-      </a>
-    {%- endfor -%}
+<section class="section">
+  <div class="page-width">
+    <div class="section__header reveal">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="section__title">{{ section.settings.heading }}</h2>{%- endif -%}
+      </div>
+      <a class="link-arrow" href="{{ routes.collections_url }}">{{ 'general.view_all' | t }}</a>
+    </div>
+    <div class="concerns concerns--{{ section.blocks.size | at_most: 4 }}">
+      {%- for block in section.blocks -%}
+        {%- assign c = block.settings.collection -%}
+        {%- assign img = block.settings.image | default: c.featured_image -%}
+        <a class="concern reveal" style="--delay: {{ forloop.index0 | times: 80 }}ms" href="{{ c.url | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+          <div class="concern__media">
+            {%- if img -%}
+              {{ img | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400, 600, 900', sizes: '(min-width: 990px) 25vw, 50vw' }}
+            {%- else -%}
+              {% render 'botanical-art', variant: 'tile' %}
+            {%- endif -%}
+          </div>
+          <div class="concern__label">
+            <span class="concern__title">{{ block.settings.title | default: c.title | default: 'Collection' }}</span>
+            {%- if block.settings.subtitle != blank -%}<span class="concern__sub">{{ block.settings.subtitle }}</span>{%- endif -%}
+            <span class="concern__arrow">{% render 'icon', name: 'arrow' %}</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Collection list",
-  "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "Shop by need" }],
-  "blocks": [{ "type": "collection", "name": "Collection", "settings": [{ "type": "collection", "id": "collection", "label": "Collection" }] }],
+  "name": "Shop by concern",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Find your ritual" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by concern" }
+  ],
+  "blocks": [{ "type": "collection", "name": "Collection", "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "image_picker", "id": "image", "label": "Custom image" },
+    { "type": "text", "id": "title", "label": "Title" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle" }
+  ] }],
   "max_blocks": 8,
-  "presets": [{ "name": "Collection list", "blocks": [{ "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" }] }]
+  "presets": [{ "name": "Shop by concern", "blocks": [
+    { "type": "collection", "settings": { "title": "Calm & sleep", "subtitle": "Unwind naturally" } },
+    { "type": "collection", "settings": { "title": "Immunity", "subtitle": "Daily defence" } },
+    { "type": "collection", "settings": { "title": "Digestion", "subtitle": "Gut harmony" } },
+    { "type": "collection", "settings": { "title": "Energy", "subtitle": "Clean vitality" } }
+  ] }]
 }
 {% endschema %}

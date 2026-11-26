@@ -4,10 +4,14 @@
   assign on_sale = false
   if variant.compare_at_price > variant.price
     assign on_sale = true
+    assign saving = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price
   endif
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count
 -%}
 <div class="card">
-  <a href="{{ product.url }}" class="card__media{% if settings.card_show_secondary_image and product.media.size > 1 %} card__media--hover{% endif %}">
+  <div class="card__media{% if settings.card_show_secondary_image and product.media.size > 1 %} card__media--hover{% endif %}">
+    <a href="{{ product.url }}" class="card__link" tabindex="-1" aria-hidden="true">
     {%- if product.featured_media -%}
       {{ product.featured_media | image_url: width: 800 | image_tag: loading: 'lazy', widths: '300, 450, 600, 800', sizes: '(min-width: 990px) 25vw, 50vw', alt: product.featured_media.alt | default: product.title, class: 'card__img' }}
       {%- if settings.card_show_secondary_image and product.media.size > 1 -%}
@@ -16,23 +20,35 @@
     {%- else -%}
       {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
     {%- endif -%}
-    {%- if product.available == false -%}
-      <span class="badge badge--muted">{{ 'products.sold_out' | t }}</span>
-    {%- elsif on_sale -%}
-      <span class="badge badge--sale">{{ 'products.sale' | t }}</span>
+    </a>
+    <span class="card__badges">
+      {%- if product.available == false -%}
+        <span class="badge badge--muted">{{ 'products.sold_out' | t }}</span>
+      {%- elsif on_sale -%}
+        <span class="badge badge--sale">−{{ saving }}%</span>
+      {%- endif -%}
+      {%- if product.tags contains 'new' or product.tags contains 'New' -%}<span class="badge badge--new">{{ 'products.new' | t }}</span>{%- endif -%}
+      {%- if product.tags contains 'bestseller' or product.tags contains 'Bestseller' -%}<span class="badge badge--gold">{{ 'products.bestseller' | t }}</span>{%- endif -%}
+    </span>
+    {%- if settings.card_quick_add and product.available -%}
+      <span class="card__quick">
+        {%- if product.has_only_default_variant -%}
+          {%- form 'product', product, class: 'card__form', data-ajax-cart: '' -%}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+            <button type="submit" class="button button--light button--full button--small">{{ 'products.add_to_cart' | t }}</button>
+          {%- endform -%}
+        {%- else -%}
+          <a href="{{ product.url }}" class="button button--light button--full button--small">{{ 'products.choose_options' | t }}</a>
+        {%- endif -%}
+      </span>
     {%- endif -%}
-  </a>
+  </div>
   <div class="card__body">
     {%- if settings.card_show_vendor -%}<p class="card__vendor">{{ product.vendor }}</p>{%- endif -%}
     <h3 class="card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
-    {% render 'price', product: product %}
-    {%- if settings.card_quick_add and product.available and product.has_only_default_variant -%}
-      {%- form 'product', product, class: 'card__form', data-ajax-cart: '' -%}
-        <input type="hidden" name="id" value="{{ variant.id }}">
-        <button type="submit" class="button button--outline button--small">{{ 'products.add_to_cart' | t }}</button>
-      {%- endform -%}
-    {%- elsif settings.card_quick_add and product.available -%}
-      <a href="{{ product.url }}" class="button button--outline button--small">{{ 'products.choose_options' | t }}</a>
+    {%- if settings.card_show_rating and rating != blank -%}
+      <div class="card__rating"><span class="stars stars--sm">{%- for i in (1..5) -%}{% render 'icon', name: 'star' %}{%- endfor -%}</span><span class="small muted">{{ rating.rating | round: 1 }} ({{ rating_count }})</span></div>
     {%- endif -%}
+    {% render 'price', product: product %}
   </div>
 </div>

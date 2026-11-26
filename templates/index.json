@@ -1,32 +1,432 @@
 {
   "sections": {
-    "hero": { "type": "hero", "settings": {} },
-    "benefits": {
-      "type": "benefits",
-      "blocks": {
-        "b1": { "type": "benefit", "settings": { "icon": "leaf", "title": "100% natural", "text": "No fillers, no artificial additives." } },
-        "b2": { "type": "benefit", "settings": { "icon": "mortar", "title": "Traditional recipes", "text": "Time-honoured herbal wisdom, carefully prepared." } },
-        "b3": { "type": "benefit", "settings": { "icon": "shield", "title": "Quality tested", "text": "Every batch checked for purity." } },
-        "b4": { "type": "benefit", "settings": { "icon": "truck", "title": "Fast delivery", "text": "Packed with care and shipped quickly." } }
-      },
-      "block_order": ["b1", "b2", "b3", "b4"],
+    "hero": {
+      "type": "hero",
       "settings": {}
     },
-    "featured": { "type": "featured-collection", "settings": { "collection": "all" } },
-    "story": { "type": "image-with-text", "settings": { "button_link": "shopify://pages/about" } },
-    "categories": {
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "m0": {
+          "type": "text",
+          "settings": {
+            "text": "Wild harvested"
+          }
+        },
+        "m1": {
+          "type": "text",
+          "settings": {
+            "text": "Small batch"
+          }
+        },
+        "m2": {
+          "type": "text",
+          "settings": {
+            "text": "Lab tested"
+          }
+        },
+        "m3": {
+          "type": "text",
+          "settings": {
+            "text": "No fillers"
+          }
+        },
+        "m4": {
+          "type": "text",
+          "settings": {
+            "text": "Ethically sourced"
+          }
+        }
+      },
+      "block_order": [
+        "m0",
+        "m1",
+        "m2",
+        "m3",
+        "m4"
+      ],
+      "settings": {
+        "style": "dark"
+      }
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "all"
+      }
+    },
+    "concerns": {
       "type": "collection-list",
-      "blocks": { "c1": { "type": "collection", "settings": {} }, "c2": { "type": "collection", "settings": {} }, "c3": { "type": "collection", "settings": {} } },
-      "block_order": ["c1", "c2", "c3"],
+      "blocks": {
+        "c0": {
+          "type": "collection",
+          "settings": {
+            "title": "Calm & sleep",
+            "subtitle": "Unwind naturally"
+          }
+        },
+        "c1": {
+          "type": "collection",
+          "settings": {
+            "title": "Immunity",
+            "subtitle": "Daily defence"
+          }
+        },
+        "c2": {
+          "type": "collection",
+          "settings": {
+            "title": "Digestion",
+            "subtitle": "Gut harmony"
+          }
+        },
+        "c3": {
+          "type": "collection",
+          "settings": {
+            "title": "Energy",
+            "subtitle": "Clean vitality"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {}
+    },
+    "statement": {
+      "type": "rich-text",
+      "settings": {
+        "scheme": "surface"
+      }
+    },
+    "ingredients": {
+      "type": "ingredients",
+      "blocks": {
+        "i0": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Ashwagandha",
+            "latin": "Withania somnifera",
+            "text": "An adaptogen revered for calm and resilience."
+          }
+        },
+        "i1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Turmeric",
+            "latin": "Curcuma longa",
+            "text": "Golden root for joint comfort and vitality."
+          }
+        },
+        "i2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Moringa",
+            "latin": "Moringa oleifera",
+            "text": "Nutrient-dense leaf for daily energy."
+          }
+        },
+        "i3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Black seed",
+            "latin": "Nigella sativa",
+            "text": "A time-honoured seed for immune support."
+          }
+        }
+      },
+      "block_order": [
+        "i0",
+        "i1",
+        "i2",
+        "i3"
+      ],
+      "settings": {}
+    },
+    "story": {
+      "type": "image-with-text",
+      "blocks": {
+        "s1": {
+          "type": "stat",
+          "settings": {
+            "value": "100",
+            "suffix": "%",
+            "label": "Natural ingredients"
+          }
+        },
+        "s2": {
+          "type": "stat",
+          "settings": {
+            "value": "10",
+            "suffix": "k+",
+            "label": "Happy customers"
+          }
+        },
+        "s3": {
+          "type": "stat",
+          "settings": {
+            "value": "30",
+            "suffix": "+",
+            "label": "Botanicals"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "button_link": "shopify://pages/about"
+      }
+    },
+    "process": {
+      "type": "process-steps",
+      "blocks": {
+        "p0": {
+          "type": "step",
+          "settings": {
+            "title": "Ethically sourced",
+            "text": "Harvested from trusted growers at peak potency."
+          }
+        },
+        "p1": {
+          "type": "step",
+          "settings": {
+            "title": "Gently prepared",
+            "text": "Slow dried and ground to protect natural compounds."
+          }
+        },
+        "p2": {
+          "type": "step",
+          "settings": {
+            "title": "Lab tested",
+            "text": "Every batch is checked for purity and quality."
+          }
+        },
+        "p3": {
+          "type": "step",
+          "settings": {
+            "title": "Packed fresh",
+            "text": "Sealed in small batches and shipped to your door."
+          }
+        }
+      },
+      "block_order": [
+        "p0",
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {}
+    },
+    "compare": {
+      "type": "comparison",
+      "blocks": {
+        "r0": {
+          "type": "row",
+          "settings": {
+            "feature": "100% pure herbs, no fillers",
+            "us": true,
+            "them": false
+          }
+        },
+        "r1": {
+          "type": "row",
+          "settings": {
+            "feature": "Small-batch prepared",
+            "us": true,
+            "them": false
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "feature": "Third-party lab tested",
+            "us": true,
+            "them": false
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "feature": "Traceable sourcing",
+            "us": true,
+            "them": false
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "feature": "Artificial colours or flavours",
+            "us": false,
+            "them": true
+          }
+        }
+      },
+      "block_order": [
+        "r0",
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
       "settings": {}
     },
     "reviews": {
       "type": "testimonials",
-      "blocks": { "t1": { "type": "testimonial", "settings": {} }, "t2": { "type": "testimonial", "settings": {} }, "t3": { "type": "testimonial", "settings": {} } },
-      "block_order": ["t1", "t2", "t3"],
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Truly the best quality",
+            "author": "Amina R."
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Part of my daily ritual",
+            "quote": "The calming blend has become my evening ritual. Beautiful packaging and fast delivery too.",
+            "author": "Daniel K."
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "title": "I noticed the difference",
+            "quote": "Within a few weeks I felt more balanced. I love knowing exactly what's inside.",
+            "author": "Sara M."
+          }
+        },
+        "t4": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Gift-worthy",
+            "quote": "Bought it as a gift and ended up ordering for myself. Exceptional.",
+            "author": "Yusuf A."
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "settings": {
+        "scheme": "surface"
+      }
+    },
+    "press": {
+      "type": "press-logos",
+      "blocks": {
+        "l0": {
+          "type": "logo",
+          "settings": {
+            "name": "Wellness Weekly"
+          }
+        },
+        "l1": {
+          "type": "logo",
+          "settings": {
+            "name": "The Herbalist"
+          }
+        },
+        "l2": {
+          "type": "logo",
+          "settings": {
+            "name": "Natural Living"
+          }
+        },
+        "l3": {
+          "type": "logo",
+          "settings": {
+            "name": "Botanica"
+          }
+        },
+        "l4": {
+          "type": "logo",
+          "settings": {
+            "name": "Pure Journal"
+          }
+        }
+      },
+      "block_order": [
+        "l0",
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ],
       "settings": {}
     },
-    "newsletter": { "type": "newsletter", "settings": {} }
+    "trust": {
+      "type": "benefits",
+      "blocks": {
+        "b0": {
+          "type": "benefit",
+          "settings": {
+            "icon": "leaf",
+            "title": "100% natural",
+            "text": "No fillers or additives"
+          }
+        },
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "flask",
+            "title": "Lab tested",
+            "text": "Purity in every batch"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "recycle",
+            "title": "Eco packaging",
+            "text": "Recyclable and plastic-light"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "Fast delivery",
+            "text": "Shipped within 24 hours"
+          }
+        }
+      },
+      "block_order": [
+        "b0",
+        "b1",
+        "b2",
+        "b3"
+      ],
+      "settings": {
+        "style": "bar"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
   },
-  "order": ["hero", "benefits", "featured", "story", "categories", "reviews", "newsletter"]
+  "order": [
+    "hero",
+    "marquee",
+    "featured",
+    "concerns",
+    "statement",
+    "ingredients",
+    "story",
+    "process",
+    "reviews",
+    "compare",
+    "press",
+    "trust",
+    "newsletter"
+  ]
 }

@@ -1,0 +1,34 @@
+{%- if predictive_search.performed -%}
+  <div class="predictive">
+    {%- if predictive_search.resources.queries.size > 0 or predictive_search.resources.collections.size > 0 -%}
+      <div class="predictive__side">
+        {%- if predictive_search.resources.queries.size > 0 -%}
+          <p class="eyebrow">{{ 'search.suggestions' | t }}</p>
+          <ul>{%- for q in predictive_search.resources.queries -%}<li><a href="{{ q.url }}">{{ q.styled_text }}</a></li>{%- endfor -%}</ul>
+        {%- endif -%}
+        {%- if predictive_search.resources.collections.size > 0 -%}
+          <p class="eyebrow">{{ 'search.collections' | t }}</p>
+          <ul>{%- for c in predictive_search.resources.collections -%}<li><a href="{{ c.url }}">{{ c.title }}</a></li>{%- endfor -%}</ul>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="predictive__main">
+      <p class="eyebrow">{{ 'search.products' | t }}</p>
+      {%- if predictive_search.resources.products.size > 0 -%}
+        <ul class="predictive__products">
+          {%- for product in predictive_search.resources.products -%}
+            <li>
+              <a href="{{ product.url }}" class="predictive__product">
+                <span class="predictive__img">{%- if product.featured_media -%}{{ product.featured_media | image_url: width: 160 | image_tag: loading: 'lazy' }}{%- endif -%}</span>
+                <span><span class="predictive__title">{{ product.title }}</span><span class="muted small">{{ product.price | money }}</span></span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="muted">{{ 'search.no_results' | t: terms: predictive_search.terms }}</p>
+      {%- endif -%}
+      <a class="link-arrow" href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&type=product">{{ 'search.view_all' | t: terms: predictive_search.terms }}</a>
+    </div>
+  </div>
+{%- endif -%}

@@ -1,0 +1,115 @@
+{
+  "general": {
+    "menu": "مینیو",
+    "search": "تلاش",
+    "account": "اکاؤنٹ",
+    "cart": "ٹوکری",
+    "main_navigation": "مرکزی نیویگیشن",
+    "view_all": "سب دیکھیں",
+    "pagination": "صفحات",
+    "tagged_with": "ٹیگ \"{{ tags }}\"",
+    "page": "صفحہ {{ page }}",
+    "close": "بند کریں",
+    "home": "ہوم",
+    "previous": "پچھلا",
+    "next": "اگلا",
+    "play_video": "ویڈیو چلائیں",
+    "verified_buyer": "تصدیق شدہ خریدار"
+  },
+  "accessibility": {
+    "skip_to_content": "مواد پر جائیں"
+  },
+  "products": {
+    "add_to_cart": "ٹوکری میں شامل کریں",
+    "choose_options": "آپشن منتخب کریں",
+    "sold_out": "ختم ہو گیا",
+    "sale": "سیل",
+    "quantity": "تعداد",
+    "from_price": "{{ price }} سے",
+    "example": "مثالی پروڈکٹ",
+    "view_image": "تصویر {{ index }} دیکھیں",
+    "added": "ٹوکری میں شامل ہو گیا",
+    "unavailable": "دستیاب نہیں",
+    "new": "نیا",
+    "bestseller": "سب سے زیادہ فروخت",
+    "tax_note": "ٹیکس شامل ہے۔ شپنگ چیک آؤٹ پر شمار ہوگی۔",
+    "reviews_count": {
+      "one": "{{ count }} ریویو",
+      "other": "{{ count }} ریویوز"
+    }
+  },
+  "collections": {
+    "product_count": {
+      "one": "{{ count }} پروڈکٹ",
+      "other": "{{ count }} پروڈکٹس"
+    },
+    "sort_by": "ترتیب",
+    "apply": "لاگو کریں",
+    "clear": "فلٹر صاف کریں",
+    "empty": "کوئی پروڈکٹ نہیں ملی۔",
+    "all_title": "تمام کلیکشنز",
+    "filter": "فلٹر"
+  },
+  "cart": {
+    "title": "آپ کی ٹوکری",
+    "remove": "ہٹائیں",
+    "note": "آرڈر نوٹ",
+    "subtotal": "ذیلی کل",
+    "taxes_note": "ٹیکس اور شپنگ چیک آؤٹ پر شمار ہوں گے۔",
+    "update": "اپ ڈیٹ کریں",
+    "checkout": "چیک آؤٹ",
+    "empty": "آپ کی ٹوکری خالی ہے۔",
+    "continue": "خریداری جاری رکھیں",
+    "shipping_remaining_html": "مفت شپنگ کے لیے مزید <strong>{{ amount }}</strong> درکار ہیں",
+    "shipping_unlocked": "آپ کو مفت شپنگ مل گئی ✓",
+    "pairs_well": "اس کے ساتھ خوب جچتا ہے",
+    "view_cart": "پوری ٹوکری دیکھیں"
+  },
+  "newsletter": {
+    "email": "ای میل ایڈریس",
+    "subscribe": "سبسکرائب کریں",
+    "success": "سبسکرائب کرنے کا شکریہ!",
+    "fine_print": "سبسکرائب کر کے آپ ای میلز وصول کرنے پر رضامند ہیں۔ کبھی بھی ان سبسکرائب کریں۔"
+  },
+  "contact": {
+    "name": "نام",
+    "email": "ای میل",
+    "phone": "فون",
+    "message": "پیغام",
+    "send": "بھیجیں",
+    "success": "شکریہ! ہم جلد آپ سے رابطہ کریں گے۔"
+  },
+  "search": {
+    "title": "تلاش",
+    "placeholder": "جڑی بوٹیاں، چائے، مرکبات تلاش کریں…",
+    "results_count": {
+      "one": "\"{{ terms }}\" کے لیے {{ count }} نتیجہ",
+      "other": "\"{{ terms }}\" کے لیے {{ count }} نتائج"
+    },
+    "suggestions": "تجاویز",
+    "collections": "کلیکشنز",
+    "products": "پروڈکٹس",
+    "no_results": "\"{{ terms }}\" کے لیے کوئی پروڈکٹ نہیں ملی",
+    "view_all": "\"{{ terms }}\" کے تمام نتائج دیکھیں"
+  },
+  "errors": {
+    "not_found": "یہ صفحہ نہیں ملا۔"
+  },
+  "blogs": {
+    "back": "بلاگ پر واپس جائیں"
+  },
+  "password": {
+    "label": "پاس ورڈ",
+    "enter": "داخل ہوں"
+  },
+  "gift_card": {
+    "title": "گفٹ کارڈ",
+    "expires": "{{ date }} کو ختم ہوگا",
+    "shop": "خریداری شروع کریں"
+  },
+  "footer": {
+    "follow": "فالو کریں",
+    "add_social": "تھیم سیٹنگز میں سوشل لنکس شامل کریں",
+    "rights": "جملہ حقوق محفوظ ہیں۔"
+  }
+}

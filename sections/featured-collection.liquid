@@ -1,35 +1,72 @@
-{%- assign collection = section.settings.collection -%}
-<section class="section page-width">
-  <div class="section__header">
-    {%- if section.settings.heading != blank -%}<h2 class="section__title">{{ section.settings.heading }}</h2>{%- endif -%}
-    {%- if section.settings.show_view_all and collection != blank -%}<a class="link-arrow" href="{{ collection.url }}">{{ 'general.view_all' | t }}</a>{%- endif -%}
-  </div>
-  <div class="grid grid--{{ section.settings.columns }}">
-    {%- if collection != blank and collection.products.size > 0 -%}
-      {%- for product in collection.products limit: section.settings.limit -%}
-        {% render 'product-card', product: product %}
-      {%- endfor -%}
-    {%- else -%}
-      {%- for i in (1..4) -%}
-        <div class="card">
-          <div class="card__media">{{ 'product-' | append: i | placeholder_svg_tag: 'placeholder' }}</div>
-          <div class="card__body"><h3 class="card__title">{{ 'products.example' | t }}</h3><div class="price"><span class="price__current">{{ 2500 | money }}</span></div></div>
+{%- liquid
+  assign tabs = section.blocks | where: 'type', 'tab'
+  if tabs.size == 0
+    assign use_tabs = false
+  else
+    assign use_tabs = true
+  endif
+-%}
+<section class="section{% if section.settings.surface %} section--surface{% endif %}" data-tabs>
+  <div class="page-width">
+    <div class="section__header{% if section.settings.center %} section__header--center{% endif %} reveal">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="section__title">{{ section.settings.heading }}</h2>{%- endif -%}
+      </div>
+      {%- if use_tabs and tabs.size > 1 -%}
+        <div class="tabs" role="tablist">
+          {%- for block in tabs -%}
+            <button type="button" role="tab" class="tabs__btn" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="Tab-{{ section.id }}-{{ forloop.index }}" data-tab {{ block.shopify_attributes }}>{{ block.settings.label | default: block.settings.collection.title }}</button>
+          {%- endfor -%}
+        </div>
+      {%- elsif section.settings.collection != blank -%}
+        <a class="link-arrow" href="{{ section.settings.collection.url }}">{{ 'general.view_all' | t }}</a>
+      {%- endif -%}
+    </div>
+
+    {%- if use_tabs -%}
+      {%- for block in tabs -%}
+        <div class="slider-wrap" id="Tab-{{ section.id }}-{{ forloop.index }}" role="tabpanel" {% unless forloop.first %}hidden{% endunless %}>
+          <div class="grid grid--{{ section.settings.columns }} grid--slider">
+            {%- for product in block.settings.collection.products limit: section.settings.limit -%}
+              {% render 'product-card', product: product %}
+            {%- else -%}
+              {% render 'product-card-placeholder', count: 4 %}
+            {%- endfor -%}
+          </div>
         </div>
       {%- endfor -%}
+    {%- else -%}
+      <div class="grid grid--{{ section.settings.columns }} grid--slider">
+        {%- if section.settings.collection != blank and section.settings.collection.products.size > 0 -%}
+          {%- for product in section.settings.collection.products limit: section.settings.limit -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        {%- else -%}
+          {% render 'product-card-placeholder', count: 4 %}
+        {%- endif -%}
+      </div>
     {%- endif -%}
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Featured collection",
+  "name": "Featured products",
   "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "The apothecary" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Bestselling botanicals" },
-    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Used when no tabs are added." },
     { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 8 },
     { "type": "select", "id": "columns", "label": "Columns on desktop", "options": [{ "value": "3", "label": "3" }, { "value": "4", "label": "4" }], "default": "4" },
-    { "type": "checkbox", "id": "show_view_all", "label": "Show view all link", "default": true }
+    { "type": "checkbox", "id": "center", "label": "Center heading", "default": false },
+    { "type": "checkbox", "id": "surface", "label": "Soft background", "default": false }
   ],
-  "presets": [{ "name": "Featured collection" }]
+  "blocks": [{ "type": "tab", "name": "Collection tab", "settings": [
+    { "type": "text", "id": "label", "label": "Tab label" },
+    { "type": "collection", "id": "collection", "label": "Collection" }
+  ] }],
+  "max_blocks": 5,
+  "presets": [{ "name": "Featured products" }]
 }
 {% endschema %}
