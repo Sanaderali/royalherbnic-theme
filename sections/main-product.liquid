@@ -68,6 +68,53 @@
                 {%- assign labels = block.settings.labels | split: ',' -%}
                 {%- for label in labels -%}<li>{% render 'icon', name: 'leaf' %}<span>{{ label | strip }}</span></li>{%- endfor -%}
               </ul>
+            {%- when 'bundle' -%}
+              {%- liquid
+                assign bs = block.settings
+                assign show_bundle = true
+                if bs.only_tag != blank
+                  assign show_bundle = false
+                  if product.tags contains bs.only_tag
+                    assign show_bundle = true
+                  endif
+                endif
+              -%}
+              {%- if show_bundle -%}
+                <div class="bundle" data-bundle data-form-id="ProductForm-{{ section.id }}" style="--bundle-accent: {{ bs.color_accent }}; --bundle-hot: {{ bs.color_highlight }};" {{ block.shopify_attributes }}>
+                  {%- if bs.heading != blank -%}<p class="bundle__heading">{{ bs.heading }}</p>{%- endif -%}
+                  {%- for n in (1..3) -%}
+                    {%- liquid
+                      assign q_key = 'qty_' | append: n
+                      assign t_key = 'title_' | append: n
+                      assign l_key = 'label_' | append: n
+                      assign d_key = 'discount_' | append: n
+                      assign b_key = 'badge_' | append: n
+                      assign qty = bs[q_key]
+                      assign disc = bs[d_key]
+                      if qty == 0 or bs[t_key] == blank
+                        continue
+                      endif
+                      assign full = current_variant.price | times: qty
+                      assign keep = 100 | minus: disc
+                      assign pay = full | times: keep | divided_by: 100
+                      assign save = full | minus: pay
+                    -%}
+                    <label class="bundle__tier{% if n == bs.highlight %} bundle__tier--hot{% endif %}">
+                      <input type="radio" name="bundle-{{ section.id }}" value="{{ qty }}" data-bundle-qty="{{ qty }}" data-bundle-discount="{{ disc }}" {% if forloop.first %}checked{% endif %}>
+                      <span class="bundle__radio"></span>
+                      <span class="bundle__text">
+                        <span class="bundle__title">{{ bs[t_key] }}</span>
+                        <span class="bundle__label" data-bundle-label data-template="{{ bs[l_key] | escape }}">{{ bs[l_key] | replace: '[save]', save | money_without_trailing_zeros }}</span>
+                      </span>
+                      <span class="bundle__prices">
+                        <span class="bundle__price" data-bundle-price>{{ pay | money_without_trailing_zeros }}</span>
+                        {%- if disc > 0 -%}<s class="bundle__compare" data-bundle-compare>{{ full | money_without_trailing_zeros }}</s>{%- endif -%}
+                      </span>
+                      {%- if bs[b_key] != blank -%}<span class="bundle__badge">{{ bs[b_key] }}</span>{%- endif -%}
+                    </label>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
             {%- when 'buy_buttons' -%}
               <div class="product__buy" {{ block.shopify_attributes }}>
                 {%- form 'product', product, class: 'product__form', data-product-form: '', id: 'ProductForm-{{ section.id }}' -%}
@@ -177,6 +224,33 @@
     { "type": "subtitle", "name": "Short text", "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "A calming blend of ancient adaptogens" }] },
     { "type": "highlights", "name": "Highlights", "settings": [{ "type": "textarea", "id": "items", "label": "One highlight per line", "default": "Supports calm and restful sleep\nWild-harvested, small-batch prepared\nNo fillers, binders or additives" }] },
     { "type": "badges", "name": "Badges", "settings": [{ "type": "text", "id": "labels", "label": "Labels (comma separated)", "default": "Vegan, Organic, Gluten free, Non-GMO" }] },
+    { "type": "bundle", "name": "Bundle offer (Buy 1 / Buy 2)", "limit": 1, "settings": [
+      { "type": "paragraph", "content": "Shows package options that set the quantity. The discount shown here is for display only: create a matching automatic discount in Shopify (Discounts › Amount off products, minimum quantity) so checkout charges the same price." },
+      { "type": "text", "id": "only_tag", "label": "Only show on products with this tag", "info": "e.g. bundle-offer. Leave empty to show on every product.", "default": "bundle-offer" },
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Choose your package" },
+      { "type": "select", "id": "highlight", "label": "Highlight option", "options": [{ "value": "1", "label": "Option 1" }, { "value": "2", "label": "Option 2" }, { "value": "3", "label": "Option 3" }], "default": "2" },
+      { "type": "header", "content": "Option 1" },
+      { "type": "range", "id": "qty_1", "label": "Quantity", "min": 0, "max": 10, "step": 1, "default": 1 },
+      { "type": "text", "id": "title_1", "label": "Title", "default": "Buy 1" },
+      { "type": "text", "id": "label_1", "label": "Subtitle", "default": "Standard price" },
+      { "type": "range", "id": "discount_1", "label": "Discount", "min": 0, "max": 70, "step": 1, "unit": "%", "default": 0 },
+      { "type": "text", "id": "badge_1", "label": "Badge" },
+      { "type": "header", "content": "Option 2" },
+      { "type": "range", "id": "qty_2", "label": "Quantity", "min": 0, "max": 10, "step": 1, "default": 2 },
+      { "type": "text", "id": "title_2", "label": "Title", "default": "Buy 2" },
+      { "type": "text", "id": "label_2", "label": "Subtitle", "info": "[save] shows the amount saved.", "default": "Save [save] + Free Delivery" },
+      { "type": "range", "id": "discount_2", "label": "Discount", "min": 0, "max": 70, "step": 1, "unit": "%", "default": 10 },
+      { "type": "text", "id": "badge_2", "label": "Badge", "default": "Most popular" },
+      { "type": "header", "content": "Option 3" },
+      { "type": "range", "id": "qty_3", "label": "Quantity", "min": 0, "max": 10, "step": 1, "default": 3 },
+      { "type": "text", "id": "title_3", "label": "Title", "default": "Buy 3" },
+      { "type": "text", "id": "label_3", "label": "Subtitle", "default": "Save [save] + Free Delivery" },
+      { "type": "range", "id": "discount_3", "label": "Discount", "min": 0, "max": 70, "step": 1, "unit": "%", "default": 15 },
+      { "type": "text", "id": "badge_3", "label": "Badge", "default": "Best value" },
+      { "type": "header", "content": "Colors" },
+      { "type": "color", "id": "color_accent", "label": "Selected border", "default": "#1F5132" },
+      { "type": "color", "id": "color_highlight", "label": "Highlighted option", "default": "#C98A2E" }
+    ] },
     { "type": "buy_buttons", "name": "Buy buttons", "limit": 1, "settings": [{ "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true }] },
     { "type": "trust", "name": "Trust icons", "limit": 1, "settings": [
       { "type": "text", "id": "text_1", "label": "Shipping", "default": "Free shipping over $50" },

@@ -186,7 +186,7 @@
         "type": "checkbox",
         "id": "grain",
         "label": "Paper grain texture",
-        "default": true
+        "default": false
       }
     ]
   },

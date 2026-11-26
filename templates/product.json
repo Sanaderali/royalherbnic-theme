@@ -69,6 +69,10 @@
             "icon": "truck",
             "heading": "Shipping & returns"
           }
+        },
+        "bundle": {
+          "type": "bundle",
+          "settings": {}
         }
       },
       "block_order": [
@@ -78,6 +82,7 @@
         "price",
         "subtitle",
         "highlights",
+        "bundle",
         "buy",
         "badges",
         "trust",

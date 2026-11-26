@@ -312,6 +312,7 @@
         const thumb = $(`[data-thumb][data-media-id="${variant.featured_media.id}"]`, root);
         if (thumb) thumb.click(); else if (variant.featured_image) setMain(variant.featured_image.src);
       }
+      form.dispatchEvent(new CustomEvent('variant:change', { detail: { price: variant.price, variant } }));
       const url = new URL(window.location.href);
       url.searchParams.set('variant', variant.id);
       window.history.replaceState({}, '', url);
@@ -327,6 +328,31 @@
         sticky.classList.toggle('is-visible', !entry.isIntersecting && entry.boundingClientRect.top < 0);
       }).observe(button);
     }
+  });
+
+
+  /* ---------- Bundle offer ---------- */
+  $$('[data-bundle]').forEach((bundle) => {
+    const form = document.getElementById(bundle.dataset.formId);
+    const qtyInput = form?.querySelector('[data-qty-input]');
+    const sync = () => {
+      const picked = bundle.querySelector('input:checked');
+      if (picked && qtyInput) qtyInput.value = picked.dataset.bundleQty;
+    };
+    bundle.addEventListener('change', sync);
+    sync();
+    // Re-price tiers when the variant changes
+    form?.addEventListener('variant:change', (e) => {
+      const price = e.detail.price;
+      $$('.bundle__tier', bundle).forEach((tier) => {
+        const input = tier.querySelector('input');
+        const qty = Number(input.dataset.bundleQty), disc = Number(input.dataset.bundleDiscount);
+        const full = price * qty, pay = Math.round(full * (100 - disc) / 100);
+        const p = tier.querySelector('[data-bundle-price]'); if (p) p.textContent = formatMoney(pay);
+        const c = tier.querySelector('[data-bundle-compare]'); if (c) c.textContent = formatMoney(full);
+        const l = tier.querySelector('[data-bundle-label]'); if (l) l.textContent = l.dataset.template.replace('[save]', formatMoney(full - pay));
+      });
+    });
   });
 
   /* ---------- Product recommendations ---------- */

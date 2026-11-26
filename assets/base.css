@@ -754,3 +754,25 @@ html[lang="ur"] .eyebrow, html[lang="ur"] .header__menu > li > a, html[lang="ur"
 [dir="rtl"] .accordion__body { padding: 0 2.1rem 1.25rem 0; }
 [dir="rtl"] .rte ul, [dir="rtl"] .rte ol { padding-left: 0; padding-right: 1.25rem; }
 @media (max-width: 749px) { .announcement { letter-spacing: .06em; font-size: .7rem; } .hero__visual { width: 82%; } .hero__badge { width: 104px; height: 104px; } }
+
+/* Bundle offer */
+.bundle { display: grid; gap: .85rem; }
+.bundle__heading { font-family: var(--font-heading); font-size: 1.375rem; margin: 0; }
+.bundle__tier { position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem; border: 1.5px solid var(--color-border-strong); border-radius: calc(var(--radius) * 1.1); cursor: pointer; background: color-mix(in srgb, var(--color-bg) 40%, white); transition: border-color .2s, background .2s, box-shadow .2s; }
+.bundle__tier:hover { border-color: var(--bundle-accent); }
+.bundle__tier input { position: absolute; opacity: 0; pointer-events: none; }
+.bundle__radio { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--color-border-strong); display: grid; place-items: center; transition: border-color .2s; }
+.bundle__radio::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--bundle-accent); transform: scale(0); transition: transform .2s var(--ease); }
+.bundle__tier:has(input:checked) { border-color: var(--bundle-accent); box-shadow: 0 0 0 1px var(--bundle-accent); background: color-mix(in srgb, var(--bundle-accent) 5%, white); }
+.bundle__tier:has(input:checked) .bundle__radio { border-color: var(--bundle-accent); border-width: 6px; }
+.bundle__tier:has(input:checked) .bundle__radio::after { display: none; }
+.bundle__tier:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.bundle__tier--hot { border-color: var(--bundle-hot); background: color-mix(in srgb, var(--bundle-hot) 9%, white); }
+.bundle__text { display: grid; gap: .1rem; }
+.bundle__title { font-weight: 700; font-size: 1.125rem; }
+.bundle__label { font-size: .875rem; color: var(--color-muted); }
+.bundle__tier--hot .bundle__label { color: var(--bundle-hot); font-weight: 600; filter: brightness(.8); }
+.bundle__prices { display: grid; justify-items: end; }
+.bundle__price { font-weight: 700; font-size: 1.25rem; }
+.bundle__compare { font-size: .8125rem; color: var(--color-muted); }
+.bundle__badge { position: absolute; top: -.7rem; inset-inline-end: 1rem; background: var(--bundle-hot); color: #fff; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .2rem .65rem; border-radius: 999px; }
