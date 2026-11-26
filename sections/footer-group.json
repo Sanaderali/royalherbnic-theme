@@ -5,29 +5,55 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "shop": {
+        "m1": {
           "type": "menu",
           "settings": {
-            "heading": "Shop",
+            "heading": "About us",
             "menu": "main-menu"
           }
         },
-        "help": {
+        "m2": {
           "type": "menu",
           "settings": {
-            "heading": "Help",
+            "heading": "Customer care",
             "menu": "footer"
           }
         },
-        "visit": {
-          "type": "text",
-          "settings": {}
+        "m3": {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop by category"
+          }
+        },
+        "c1": {
+          "type": "contact",
+          "settings": {
+            "icon": "location",
+            "text": "Your store address"
+          }
+        },
+        "c2": {
+          "type": "contact",
+          "settings": {
+            "icon": "email",
+            "text": "info@example.com"
+          }
+        },
+        "c3": {
+          "type": "contact",
+          "settings": {
+            "icon": "whatsapp",
+            "text": "+92 300 0000000"
+          }
         }
       },
       "block_order": [
-        "shop",
-        "help",
-        "visit"
+        "m1",
+        "m2",
+        "m3",
+        "c1",
+        "c2",
+        "c3"
       ],
       "settings": {}
     }

@@ -267,13 +267,13 @@
     "settings": [
       {
         "type": "text",
-        "id": "social_instagram",
-        "label": "Instagram URL"
+        "id": "social_facebook",
+        "label": "Facebook URL"
       },
       {
         "type": "text",
-        "id": "social_facebook",
-        "label": "Facebook URL"
+        "id": "social_instagram",
+        "label": "Instagram URL"
       },
       {
         "type": "text",
@@ -284,6 +284,26 @@
         "type": "text",
         "id": "social_youtube",
         "label": "YouTube URL"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin",
+        "label": "LinkedIn URL"
+      },
+      {
+        "type": "text",
+        "id": "social_x",
+        "label": "X (Twitter) URL"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest",
+        "label": "Pinterest URL"
+      },
+      {
+        "type": "text",
+        "id": "social_whatsapp",
+        "label": "WhatsApp link (https://wa.me/...) URL"
       }
     ]
   }

@@ -1,85 +1,192 @@
-<footer class="footer">
-  <div class="footer__art" aria-hidden="true">{% render 'botanical-art', variant: 'footer' %}</div>
+{%- liquid
+  assign s = section.settings
+  assign logo = s.logo | default: settings.logo
+  assign menus = section.blocks | where: 'type', 'menu'
+  assign texts = section.blocks | where: 'type', 'text'
+  assign contacts = section.blocks | where: 'type', 'contact'
+  assign socials = 'facebook,instagram,tiktok,youtube,linkedin,x,pinterest,whatsapp' | split: ','
+  assign has_social = false
+  for n in socials
+    assign key = 'social_' | append: n
+    if settings[key] != blank
+      assign has_social = true
+    endif
+  endfor
+-%}
+<footer class="site-footer"
+  style="
+    --f-bg: {{ s.color_bg }};
+    --f-bg-2: {{ s.color_bg_2 }};
+    --f-text: {{ s.color_text }};
+    --f-heading: {{ s.color_heading }};
+    --f-hover: {{ s.color_hover }};
+    --f-tile: {{ s.color_tile }};
+    --f-tile-icon: {{ s.color_tile_icon }};
+    --f-divider: {{ s.color_text | color_modify: 'alpha', 0.14 }};
+    --f-radius: {{ s.top_radius }}px;
+  ">
   <div class="page-width">
-    <div class="footer__top">
-      <div class="footer__statement">
-        <p class="footer__wordmark">{{ shop.name }}</p>
-        {%- if section.settings.tagline != blank -%}<div class="footer__tagline">{{ section.settings.tagline }}</div>{%- endif -%}
-      </div>
-      {%- if section.settings.show_newsletter -%}
-        <div class="footer__newsletter">
-          <p class="footer__heading">{{ section.settings.newsletter_heading }}</p>
-          {%- form 'customer', id: 'FooterNewsletter', class: 'newsletter-form newsletter-form--line' -%}
-            <input type="hidden" name="contact[tags]" value="newsletter">
-            {%- if form.posted_successfully? -%}
-              <p class="form-success">{{ 'newsletter.success' | t }}</p>
-            {%- else -%}
-              <label class="visually-hidden" for="FooterEmail">{{ 'newsletter.email' | t }}</label>
-              <input id="FooterEmail" type="email" name="contact[email]" required placeholder="{{ 'newsletter.email' | t }}" autocomplete="email">
-              <button type="submit" aria-label="{{ 'newsletter.subscribe' | t }}">{% render 'icon', name: 'arrow' %}</button>
-            {%- endif -%}
-          {%- endform -%}
-        </div>
-      {%- endif -%}
-    </div>
+    {%- assign col_count = menus.size | plus: texts.size | at_least: 1 -%}
+    <div class="site-footer__main" style="--cols: {{ col_count }}">
+      <div class="site-footer__brand">
+        {%- if logo != blank -%}
+          <a href="{{ routes.root_url }}" class="site-footer__logo{% if s.logo_card %} site-footer__logo--card{% endif %}" style="--logo-card: {{ s.color_logo_card }}">
+            {{ logo | image_url: width: 600 | image_tag: loading: 'lazy', widths: '200, 400, 600', sizes: '300px', alt: shop.name, style: 'max-width:' | append: s.logo_width | append: 'px' }}
+          </a>
+        {%- else -%}
+          <a href="{{ routes.root_url }}" class="site-footer__logo site-footer__logo--text{% if s.logo_card %} site-footer__logo--card{% endif %}" style="--logo-card: {{ s.color_logo_card }}">{{ shop.name }}</a>
+        {%- endif -%}
+        {%- if s.tagline != blank -%}<p class="site-footer__tagline">{{ s.tagline }}</p>{%- endif -%}
 
-    <div class="footer__grid">
-      {%- for block in section.blocks -%}
-        <div class="footer__col" {{ block.shopify_attributes }}>
-          {%- case block.type -%}
-            {%- when 'menu' -%}
-              <p class="footer__heading">{{ block.settings.heading | default: block.settings.menu.title }}</p>
-              <ul class="footer__links">
-                {%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
-              </ul>
-            {%- when 'text' -%}
-              <p class="footer__heading">{{ block.settings.heading }}</p>
-              <div class="rte footer__text">{{ block.settings.text }}</div>
-          {%- endcase -%}
+        {%- if has_social or request.design_mode -%}
+          {%- if s.social_heading != blank -%}<p class="site-footer__heading">{{ s.social_heading }}</p>{%- endif -%}
+          <ul class="site-footer__social">
+            {%- for n in socials -%}
+              {%- assign key = 'social_' | append: n -%}
+              {%- if settings[key] != blank -%}
+                <li><a href="{{ settings[key] }}" target="_blank" rel="noopener" aria-label="{{ n | capitalize }}">{% render 'social-icon', name: n %}</a></li>
+              {%- endif -%}
+            {%- endfor -%}
+            {%- unless has_social -%}<li class="site-footer__hint">{{ 'footer.add_social' | t }}</li>{%- endunless -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {%- for block in menus -%}
+        <div class="site-footer__col" {{ block.shopify_attributes }}>
+          <p class="site-footer__heading">{{ block.settings.heading | default: block.settings.menu.title }}</p>
+          <ul class="site-footer__links">
+            {%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+            {%- if block.settings.menu == blank and request.design_mode -%}<li class="site-footer__hint">{{ 'footer.choose_menu' | t }}</li>{%- endif -%}
+          </ul>
         </div>
       {%- endfor -%}
-      <div class="footer__col">
-        <p class="footer__heading">{{ 'footer.follow' | t }}</p>
-        <ul class="footer__links">
-          {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a></li>{%- endif -%}
-          {%- if settings.social_facebook != blank -%}<li><a href="{{ settings.social_facebook }}" target="_blank" rel="noopener">Facebook</a></li>{%- endif -%}
-          {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a></li>{%- endif -%}
-          {%- if settings.social_youtube != blank -%}<li><a href="{{ settings.social_youtube }}" target="_blank" rel="noopener">YouTube</a></li>{%- endif -%}
-          {%- if settings.social_instagram == blank and settings.social_facebook == blank and settings.social_tiktok == blank and settings.social_youtube == blank -%}<li class="muted-light">{{ 'footer.add_social' | t }}</li>{%- endif -%}
-        </ul>
-      </div>
+      {%- for block in texts -%}
+        <div class="site-footer__col" {{ block.shopify_attributes }}>
+          <p class="site-footer__heading">{{ block.settings.heading }}</p>
+          <div class="rte site-footer__text">{{ block.settings.text }}</div>
+        </div>
+      {%- endfor -%}
     </div>
 
-    <div class="footer__bottom">
-      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'footer.rights' | t }}</p>
-      {%- if section.settings.show_payment_icons -%}
-        <ul class="footer__payments">
-          {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>{%- endfor -%}
-        </ul>
+    {%- if contacts.size > 0 -%}
+      <div class="site-footer__contacts">
+        {%- for block in contacts -%}
+          {%- liquid
+            assign href = block.settings.link
+            case block.settings.icon
+              when 'email'
+                assign href = 'mailto:' | append: block.settings.text
+              when 'phone'
+                assign digits = block.settings.text | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+                assign href = 'tel:' | append: digits
+              when 'whatsapp'
+                assign digits = block.settings.text | remove: ' ' | remove: '-' | remove: '+' | remove: '(' | remove: ')'
+                assign href = 'https://wa.me/' | append: digits
+            endcase
+            if block.settings.link != blank
+              assign href = block.settings.link
+            endif
+          -%}
+          <a class="site-footer__contact"{% if href != blank %} href="{{ href }}"{% if block.settings.icon == 'whatsapp' or block.settings.icon == 'location' %} target="_blank" rel="noopener"{% endif %}{% endif %} {{ block.shopify_attributes }}>
+            <span class="site-footer__tile">{% render 'social-icon', name: block.settings.icon %}</span>
+            <span>{{ block.settings.text }}</span>
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="site-footer__bottom">
+    <div class="page-width site-footer__bottom-inner">
+      <div class="site-footer__legal">
+        <p class="site-footer__copy">
+          {%- assign current_year = 'now' | date: '%Y' -%}
+          {{ s.copyright | replace: '[year]', current_year }}
+        </p>
+        {%- if s.show_payment_icons -%}
+          <ul class="site-footer__payments">
+            {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>{%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {%- if s.track_label != blank -%}
+        <a class="site-footer__track" href="{{ s.track_link | default: routes.account_url }}">{% render 'social-icon', name: 'delivery' %}<span>{{ s.track_label }}</span></a>
       {%- endif -%}
+
+      <ul class="site-footer__policies">
+        {%- if s.policy_menu != blank -%}
+          {%- for link in s.policy_menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+        {%- else -%}
+          {%- for policy in shop.policies -%}<li><a href="{{ policy.url }}">{{ policy.title }}</a></li>{%- endfor -%}
+        {%- endif -%}
+      </ul>
     </div>
   </div>
 </footer>
+
+{%- if s.whatsapp_number != blank -%}
+  {%- assign wa = s.whatsapp_number | remove: ' ' | remove: '-' | remove: '+' | remove: '(' | remove: ')' -%}
+  <a class="whatsapp-float whatsapp-float--{{ s.whatsapp_position }}" href="https://wa.me/{{ wa }}{% if s.whatsapp_message != blank %}?text={{ s.whatsapp_message | url_encode }}{% endif %}" target="_blank" rel="noopener" aria-label="WhatsApp" style="--wa-bg: {{ s.whatsapp_color }}">
+    {% render 'social-icon', name: 'whatsapp' %}
+  </a>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Footer",
   "settings": [
-    { "type": "textarea", "id": "tagline", "label": "Brand statement", "default": "Ancient herbal wisdom, thoughtfully prepared for modern rituals." },
-    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter", "default": true },
-    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Join the herbal circle" },
-    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
+    { "type": "header", "content": "Brand" },
+    { "type": "image_picker", "id": "logo", "label": "Footer logo", "info": "Leave empty to use the main logo." },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 100, "max": 400, "step": 10, "unit": "px", "default": 260 },
+    { "type": "checkbox", "id": "logo_card", "label": "Show logo on a card", "default": true },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Nature's remedies, delivered with care." },
+    { "type": "text", "id": "social_heading", "label": "Social heading", "default": "Follow us on" },
+    { "type": "paragraph", "content": "Social links are set in Theme settings › Social media." },
+
+    { "type": "header", "content": "Bottom bar" },
+    { "type": "text", "id": "copyright", "label": "Copyright text", "default": "Copyright © [year] Royal Herb Nic. All rights reserved.", "info": "[year] is replaced with the current year." },
+    { "type": "text", "id": "track_label", "label": "Track order button label", "default": "Track your order" },
+    { "type": "url", "id": "track_link", "label": "Track order link" },
+    { "type": "link_list", "id": "policy_menu", "label": "Policy links menu", "info": "Leave empty to list the store's policies automatically." },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+
+    { "type": "header", "content": "WhatsApp button" },
+    { "type": "text", "id": "whatsapp_number", "label": "WhatsApp number", "info": "With country code, e.g. +92 300 1234567. Leave empty to hide." },
+    { "type": "text", "id": "whatsapp_message", "label": "Pre-filled message", "default": "Hi! I have a question about your products." },
+    { "type": "select", "id": "whatsapp_position", "label": "Position", "options": [{ "value": "right", "label": "Bottom right" }, { "value": "left", "label": "Bottom left" }], "default": "right" },
+    { "type": "color", "id": "whatsapp_color", "label": "Button color", "default": "#25D366" },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#16241B" },
+    { "type": "color", "id": "color_bg_2", "label": "Background gradient end", "default": "#1F3326" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#F4EDDF" },
+    { "type": "color", "id": "color_heading", "label": "Headings", "default": "#C9A15E" },
+    { "type": "color", "id": "color_hover", "label": "Link hover", "default": "#C9A15E" },
+    { "type": "color", "id": "color_tile", "label": "Icon circles and tiles", "default": "#2A4032" },
+    { "type": "color", "id": "color_tile_icon", "label": "Icon color", "default": "#C9A15E" },
+    { "type": "color", "id": "color_logo_card", "label": "Logo card", "default": "#FFFFFF" },
+    { "type": "range", "id": "top_radius", "label": "Top corner rounding", "min": 0, "max": 60, "step": 4, "unit": "px", "default": 40 }
   ],
   "blocks": [
-    { "type": "menu", "name": "Menu", "settings": [
-      { "type": "text", "id": "heading", "label": "Heading" },
-      { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+    { "type": "menu", "name": "Menu column", "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
+      { "type": "link_list", "id": "menu", "label": "Menu" }
     ] },
-    { "type": "text", "name": "Text", "settings": [
-      { "type": "text", "id": "heading", "label": "Heading", "default": "Visit us" },
-      { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Questions about a remedy? Our herbalists are happy to help.</p>" }
+    { "type": "text", "name": "Text column", "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Store hours" },
+      { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Mon – Sat: 9am – 9pm</p>" }
+    ] },
+    { "type": "contact", "name": "Contact item", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "options": [
+        { "value": "location", "label": "Location" }, { "value": "whatsapp", "label": "WhatsApp" },
+        { "value": "email", "label": "Email" }, { "value": "phone", "label": "Phone" }, { "value": "clock", "label": "Hours" }
+      ], "default": "email" },
+      { "type": "text", "id": "text", "label": "Text", "default": "hello@example.com" },
+      { "type": "url", "id": "link", "label": "Custom link", "info": "Email, phone and WhatsApp link automatically." }
     ] }
   ],
-  "max_blocks": 4
+  "max_blocks": 10
 }
 {% endschema %}

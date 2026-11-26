@@ -110,6 +110,7 @@
   "footer": {
     "follow": "Follow",
     "add_social": "Add social links in Theme settings",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "choose_menu": "Choose a menu for this column"
   }
 }
