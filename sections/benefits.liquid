@@ -1,0 +1,48 @@
+<section class="section benefits" style="--section-bg: {{ section.settings.bg }};">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}<div class="section__header section__header--center"><h2 class="section__title">{{ section.settings.heading }}</h2></div>{%- endif -%}
+    <div class="benefits__grid">
+      {%- for block in section.blocks -%}
+        <div class="benefit" {{ block.shopify_attributes }}>
+          <span class="benefit__icon">{% render 'icon', name: block.settings.icon %}</span>
+          <h3 class="benefit__title">{{ block.settings.title }}</h3>
+          <p class="benefit__text">{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefits",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why our herbs" },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#EFE8D8" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit", "name": "Benefit",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "leaf", "label": "Leaf" }, { "value": "mortar", "label": "Mortar and pestle" },
+          { "value": "shield", "label": "Shield" }, { "value": "truck", "label": "Delivery" },
+          { "value": "heart", "label": "Heart" }, { "value": "drop", "label": "Drop" }
+        ], "default": "leaf" },
+        { "type": "text", "id": "title", "label": "Title", "default": "100% natural" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "No fillers, no artificial additives." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{
+    "name": "Benefits",
+    "blocks": [
+      { "type": "benefit", "settings": { "icon": "leaf", "title": "100% natural", "text": "No fillers, no artificial additives." } },
+      { "type": "benefit", "settings": { "icon": "mortar", "title": "Traditional recipes", "text": "Time-honoured herbal wisdom, carefully prepared." } },
+      { "type": "benefit", "settings": { "icon": "shield", "title": "Quality tested", "text": "Every batch checked for purity." } },
+      { "type": "benefit", "settings": { "icon": "truck", "title": "Fast delivery", "text": "Packed with care and shipped quickly." } }
+    ]
+  }]
+}
+{% endschema %}

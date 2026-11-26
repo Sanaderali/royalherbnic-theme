@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": { "type": "main-page", "settings": {} },
+    "faq": { "type": "faq", "blocks": {
+      "q1": { "type": "question", "settings": { "question": "Are your products 100% natural?", "answer": "<p>Yes. Edit this answer in the theme editor.</p>" } },
+      "q2": { "type": "question", "settings": { "question": "How long does shipping take?", "answer": "<p>Edit this answer in the theme editor.</p>" } },
+      "q3": { "type": "question", "settings": { "question": "How should I store my herbs?", "answer": "<p>Keep them in a cool, dry place away from direct sunlight.</p>" } }
+    }, "block_order": ["q1", "q2", "q3"], "settings": {} }
+  },
+  "order": ["main", "faq"]
+}

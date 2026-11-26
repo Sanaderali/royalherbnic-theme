@@ -1,0 +1,17 @@
+<section class="section page-width">
+  <header class="page-header"><h1 class="page-title">{{ 'collections.all_title' | t }}</h1></header>
+  <div class="grid grid--3">
+    {%- for c in collections -%}
+      {%- if c.handle == 'frontpage' -%}{%- continue -%}{%- endif -%}
+      <a class="tile" href="{{ c.url }}">
+        <div class="tile__media">
+          {%- if c.featured_image -%}{{ c.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400, 600, 800', sizes: '33vw' }}{%- else -%}{{ 'collection-1' | placeholder_svg_tag: 'placeholder' }}{%- endif -%}
+        </div>
+        <span class="tile__label">{{ c.title }}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Collections list page" }
+{% endschema %}

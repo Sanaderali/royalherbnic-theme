@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ 'gift_card.title' | t }} &ndash; {{ shop.name }}</title>
+  {% render 'css-variables' %}
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+</head>
+<body>
+  <main class="section page-width page-width--narrow empty-state">
+    <h1 class="page-title">{{ shop.name }}</h1>
+    <p class="eyebrow">{{ 'gift_card.title' | t }}</p>
+    <p class="hero__heading">{{ gift_card.balance | money }}</p>
+    <p><code>{{ gift_card.code | format_code }}</code></p>
+    {%- if gift_card.expires_on -%}<p class="muted">{{ 'gift_card.expires' | t: date: gift_card.expires_on }}</p>{%- endif -%}
+    <a class="button" href="{{ shop.url }}">{{ 'gift_card.shop' | t }}</a>
+  </main>
+</body>
+</html>

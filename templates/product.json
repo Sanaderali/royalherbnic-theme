@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": { "type": "vendor", "settings": {} },
+        "title": { "type": "title", "settings": {} },
+        "price": { "type": "price", "settings": {} },
+        "note": { "type": "text", "settings": {} },
+        "buy": { "type": "buy_buttons", "settings": { "show_dynamic_checkout": true } },
+        "description": { "type": "description", "settings": {} },
+        "ingredients": { "type": "collapsible", "settings": { "heading": "Ingredients" } },
+        "howto": { "type": "collapsible", "settings": { "heading": "How to use" } },
+        "shipping": { "type": "collapsible", "settings": { "heading": "Shipping & returns" } }
+      },
+      "block_order": ["vendor", "title", "price", "note", "buy", "description", "ingredients", "howto", "shipping"],
+      "settings": {}
+    },
+    "benefits": { "type": "benefits", "settings": { "heading": "" }, "blocks": {
+      "b1": { "type": "benefit", "settings": { "icon": "leaf", "title": "100% natural", "text": "No fillers, no artificial additives." } },
+      "b2": { "type": "benefit", "settings": { "icon": "shield", "title": "Quality tested", "text": "Every batch checked for purity." } },
+      "b3": { "type": "benefit", "settings": { "icon": "truck", "title": "Fast delivery", "text": "Packed with care and shipped quickly." } }
+    }, "block_order": ["b1", "b2", "b3"] },
+    "related": { "type": "featured-collection", "settings": { "heading": "You may also like", "collection": "all", "limit": 4 } }
+  },
+  "order": ["main", "benefits", "related"]
+}

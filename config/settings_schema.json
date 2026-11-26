@@ -1,0 +1,69 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Royal Herb",
+    "theme_version": "0.1.0",
+    "theme_author": "Royal Herb Nic",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/manual/online-store/themes"
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo" },
+      { "type": "range", "id": "logo_width", "label": "Logo width", "min": 60, "max": 300, "step": 10, "unit": "px", "default": 140 },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon", "info": "32 x 32px recommended" }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "color", "id": "color_primary", "label": "Primary (herbal green)", "default": "#2F4A34" },
+      { "type": "color", "id": "color_primary_contrast", "label": "Text on primary", "default": "#F7F2E7" },
+      { "type": "color", "id": "color_accent", "label": "Accent (gold)", "default": "#B8924A" },
+      { "type": "color", "id": "color_background", "label": "Background", "default": "#FBF8F1" },
+      { "type": "color", "id": "color_surface", "label": "Soft surface", "default": "#EFE8D8" },
+      { "type": "color", "id": "color_text", "label": "Text", "default": "#1F2A20" },
+      { "type": "color", "id": "color_muted", "label": "Muted text", "default": "#5E6B5F" },
+      { "type": "color", "id": "color_sale", "label": "Sale badge", "default": "#9C4A2F" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "font_picker", "id": "font_heading", "label": "Heading font", "default": "playfair_display_n4" },
+      { "type": "font_picker", "id": "font_body", "label": "Body font", "default": "work_sans_n4" },
+      { "type": "range", "id": "body_scale", "label": "Body text size", "min": 90, "max": 120, "step": 5, "unit": "%", "default": 100 }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "label": "Page width", "min": 1000, "max": 1600, "step": 50, "unit": "px", "default": 1280 },
+      { "type": "range", "id": "radius", "label": "Corner radius", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 12 }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      { "type": "checkbox", "id": "card_show_secondary_image", "label": "Show second image on hover", "default": true },
+      { "type": "checkbox", "id": "card_show_vendor", "label": "Show vendor", "default": false },
+      { "type": "checkbox", "id": "card_quick_add", "label": "Show quick add button", "default": true }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      { "type": "text", "id": "free_shipping_note", "label": "Cart note", "default": "Free shipping on orders over $50" }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook URL" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok URL" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube URL" }
+    ]
+  }
+]

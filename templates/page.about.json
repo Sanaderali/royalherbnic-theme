@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "hero": { "type": "hero", "settings": { "height": "medium", "eyebrow": "Our story", "heading": "Rooted in nature, guided by tradition", "text": "<p>Tell your brand's story here.</p>", "button_label": "Shop now", "button2_label": "" } },
+    "story": { "type": "image-with-text", "settings": { "eyebrow": "How it began", "button_label": "" } },
+    "values": { "type": "benefits", "settings": { "heading": "What we stand for" }, "blocks": {
+      "b1": { "type": "benefit", "settings": { "icon": "leaf", "title": "Purity", "text": "Only real herbs, nothing artificial." } },
+      "b2": { "type": "benefit", "settings": { "icon": "heart", "title": "Care", "text": "Made in small batches with attention." } },
+      "b3": { "type": "benefit", "settings": { "icon": "drop", "title": "Honesty", "text": "Clear labels and transparent sourcing." } }
+    }, "block_order": ["b1", "b2", "b3"] },
+    "main": { "type": "main-page", "settings": {} }
+  },
+  "order": ["hero", "story", "values", "main"]
+}

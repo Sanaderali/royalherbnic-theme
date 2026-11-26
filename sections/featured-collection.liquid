@@ -1,0 +1,35 @@
+{%- assign collection = section.settings.collection -%}
+<section class="section page-width">
+  <div class="section__header">
+    {%- if section.settings.heading != blank -%}<h2 class="section__title">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.show_view_all and collection != blank -%}<a class="link-arrow" href="{{ collection.url }}">{{ 'general.view_all' | t }}</a>{%- endif -%}
+  </div>
+  <div class="grid grid--{{ section.settings.columns }}">
+    {%- if collection != blank and collection.products.size > 0 -%}
+      {%- for product in collection.products limit: section.settings.limit -%}
+        {% render 'product-card', product: product %}
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..4) -%}
+        <div class="card">
+          <div class="card__media">{{ 'product-' | append: i | placeholder_svg_tag: 'placeholder' }}</div>
+          <div class="card__body"><h3 class="card__title">{{ 'products.example' | t }}</h3><div class="price"><span class="price__current">{{ 2500 | money }}</span></div></div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Bestselling botanicals" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 8 },
+    { "type": "select", "id": "columns", "label": "Columns on desktop", "options": [{ "value": "3", "label": "3" }, { "value": "4", "label": "4" }], "default": "4" },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show view all link", "default": true }
+  ],
+  "presets": [{ "name": "Featured collection" }]
+}
+{% endschema %}

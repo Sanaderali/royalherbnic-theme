@@ -1,0 +1,24 @@
+{%- if section.settings.text != blank -%}
+<div class="announcement" style="--ann-bg: {{ section.settings.bg }}; --ann-fg: {{ section.settings.fg }};">
+  <div class="page-width announcement__inner">
+    {%- if section.settings.link != blank -%}
+      <a href="{{ section.settings.link }}">{{ section.settings.text }}</a>
+    {%- else -%}
+      <p>{{ section.settings.text }}</p>
+    {%- endif -%}
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Text", "default": "Free shipping on orders over $50 · Rooted in nature" },
+    { "type": "url", "id": "link", "label": "Link" },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#2F4A34" },
+    { "type": "color", "id": "fg", "label": "Text color", "default": "#F7F2E7" }
+  ],
+  "presets": [{ "name": "Announcement bar" }]
+}
+{% endschema %}

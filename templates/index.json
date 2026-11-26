@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "hero": { "type": "hero", "settings": {} },
+    "benefits": {
+      "type": "benefits",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "icon": "leaf", "title": "100% natural", "text": "No fillers, no artificial additives." } },
+        "b2": { "type": "benefit", "settings": { "icon": "mortar", "title": "Traditional recipes", "text": "Time-honoured herbal wisdom, carefully prepared." } },
+        "b3": { "type": "benefit", "settings": { "icon": "shield", "title": "Quality tested", "text": "Every batch checked for purity." } },
+        "b4": { "type": "benefit", "settings": { "icon": "truck", "title": "Fast delivery", "text": "Packed with care and shipped quickly." } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "settings": {}
+    },
+    "featured": { "type": "featured-collection", "settings": { "collection": "all" } },
+    "story": { "type": "image-with-text", "settings": { "button_link": "shopify://pages/about" } },
+    "categories": {
+      "type": "collection-list",
+      "blocks": { "c1": { "type": "collection", "settings": {} }, "c2": { "type": "collection", "settings": {} }, "c3": { "type": "collection", "settings": {} } },
+      "block_order": ["c1", "c2", "c3"],
+      "settings": {}
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": { "t1": { "type": "testimonial", "settings": {} }, "t2": { "type": "testimonial", "settings": {} }, "t3": { "type": "testimonial", "settings": {} } },
+      "block_order": ["t1", "t2", "t3"],
+      "settings": {}
+    },
+    "newsletter": { "type": "newsletter", "settings": {} }
+  },
+  "order": ["hero", "benefits", "featured", "story", "categories", "reviews", "newsletter"]
+}

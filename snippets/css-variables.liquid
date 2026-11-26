@@ -1,0 +1,33 @@
+{%- liquid
+  assign heading_bold = settings.font_heading | font_modify: 'weight', 'bold'
+  assign body_bold = settings.font_body | font_modify: 'weight', 'bold'
+  assign body_medium = settings.font_body | font_modify: 'weight', '500'
+-%}
+<style>
+  {{ settings.font_heading | font_face: font_display: 'swap' }}
+  {{ settings.font_body | font_face: font_display: 'swap' }}
+  {%- if heading_bold %}{{ heading_bold | font_face: font_display: 'swap' }}{% endif -%}
+  {%- if body_bold %}{{ body_bold | font_face: font_display: 'swap' }}{% endif -%}
+  {%- if body_medium %}{{ body_medium | font_face: font_display: 'swap' }}{% endif -%}
+
+  :root {
+    --color-primary: {{ settings.color_primary }};
+    --color-primary-contrast: {{ settings.color_primary_contrast }};
+    --color-accent: {{ settings.color_accent }};
+    --color-bg: {{ settings.color_background }};
+    --color-surface: {{ settings.color_surface }};
+    --color-text: {{ settings.color_text }};
+    --color-muted: {{ settings.color_muted }};
+    --color-sale: {{ settings.color_sale }};
+    --color-border: {{ settings.color_text | color_modify: 'alpha', 0.12 }};
+
+    --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    --font-heading-weight: {{ settings.font_heading.weight }};
+    --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+    --font-body-weight: {{ settings.font_body.weight }};
+    --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+
+    --page-width: {{ settings.page_width }}px;
+    --radius: {{ settings.radius }}px;
+  }
+</style>

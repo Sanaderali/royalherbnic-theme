@@ -1,0 +1,124 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<section class="section page-width product" data-product>
+  <div class="product__gallery">
+    <div class="product__main-media" data-main-media>
+      {%- if product.featured_media -%}
+        {%- assign first = current_variant.featured_media | default: product.featured_media -%}
+        {{ first | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 55vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: first.alt | default: product.title }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+      {%- endif -%}
+    </div>
+    {%- if product.media.size > 1 -%}
+      <ul class="product__thumbs">
+        {%- for media in product.media -%}
+          {%- if media.media_type == 'image' -%}
+            <li>
+              <button type="button" class="product__thumb" data-thumb data-src="{{ media | image_url: width: 1400 }}" data-alt="{{ media.alt | escape }}" aria-label="{{ 'products.view_image' | t: index: forloop.index }}">
+                {{ media | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}
+              </button>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+
+  <div class="product__info">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'vendor' -%}
+          <p class="eyebrow" {{ block.shopify_attributes }}>{{ product.vendor }}</p>
+        {%- when 'title' -%}
+          <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+        {%- when 'price' -%}
+          <div data-price {{ block.shopify_attributes }}>{% render 'price', product: product, variant: current_variant %}</div>
+        {%- when 'description' -%}
+          <div class="rte product__description" {{ block.shopify_attributes }}>{{ product.description }}</div>
+        {%- when 'text' -%}
+          <p class="product__note" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+        {%- when 'buy_buttons' -%}
+          <div {{ block.shopify_attributes }}>
+            {%- form 'product', product, class: 'product__form', data-product-form: '' -%}
+              {%- unless product.has_only_default_variant -%}
+                {%- for option in product.options_with_values -%}
+                  <fieldset class="option">
+                    <legend>{{ option.name }}</legend>
+                    <div class="option__values">
+                      {%- for value in option.values -%}
+                        <label class="option__pill">
+                          <input type="radio" name="option{{ option.position }}" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %} data-option-input>
+                          <span>{{ value }}</span>
+                        </label>
+                      {%- endfor -%}
+                    </div>
+                  </fieldset>
+                {%- endfor -%}
+              {%- endunless -%}
+              <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+              <div class="product__buy-row">
+                <label class="visually-hidden" for="Quantity-{{ section.id }}">{{ 'products.quantity' | t }}</label>
+                <input class="qty" id="Quantity-{{ section.id }}" type="number" name="quantity" min="1" value="1">
+                <button type="submit" class="button button--full" data-add-button {% unless current_variant.available %}disabled{% endunless %}>
+                  {%- if current_variant.available -%}{{ 'products.add_to_cart' | t }}{%- else -%}{{ 'products.sold_out' | t }}{%- endif -%}
+                </button>
+              </div>
+              {%- if block.settings.show_dynamic_checkout -%}{{ form | payment_button }}{%- endif -%}
+              <p class="form-message" data-form-message role="status"></p>
+            {%- endform -%}
+            <script type="application/json" data-variants>{{ product.variants | json }}</script>
+          </div>
+        {%- when 'collapsible' -%}
+          <details class="faq__item" {{ block.shopify_attributes }}>
+            <summary>{{ block.settings.heading }}</summary>
+            <div class="rte">{{ block.settings.content }}{{ block.settings.page.content }}</div>
+          </details>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "description": {{ product.description | strip_html | json }},
+  {% if product.featured_media %}"image": {{ product.featured_media | image_url: width: 1200 | prepend: 'https:' | json }},{% endif %}
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+  "offers": [
+    {%- for variant in product.variants -%}
+      {
+        "@type": "Offer",
+        "sku": {{ variant.sku | json }},
+        "availability": "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+        "price": {{ variant.price | divided_by: 100.00 | json }},
+        "priceCurrency": {{ cart.currency.iso_code | json }},
+        "url": {{ request.origin | append: variant.url | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% schema %}
+{
+  "name": "Product information",
+  "blocks": [
+    { "type": "vendor", "name": "Vendor", "limit": 1 },
+    { "type": "title", "name": "Title", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    { "type": "text", "name": "Text", "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "Small-batch · Naturally sourced" }] },
+    { "type": "buy_buttons", "name": "Buy buttons", "limit": 1, "settings": [{ "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true }] },
+    { "type": "description", "name": "Description", "limit": 1 },
+    {
+      "type": "collapsible", "name": "Collapsible tab",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Ingredients" },
+        { "type": "richtext", "id": "content", "label": "Content" },
+        { "type": "page", "id": "page", "label": "Content from page" }
+      ]
+    }
+  ]
+}
+{% endschema %}
