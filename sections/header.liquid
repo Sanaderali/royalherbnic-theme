@@ -1,5 +1,5 @@
 {%- liquid
-  assign demo_menu = 'Herbal Teas,Powders,Oils,Wellness Blends,Skin Care,Gift Sets,Bundles,More' | split: ','
+  assign demo_menu = 'Bestsellers|bestsellers,Herbal Teas|herbal-teas,Powders|herbal-powders,Oils|herbal-oils,Wellness Blends|wellness-blends,Skin Care|skin-care' | split: ','
   assign transparent = false
   if section.settings.transparent_home and template.name == 'index'
     assign transparent = true
@@ -73,15 +73,17 @@
   {%- if section.settings.show_demo_menu or section.settings.menu.links.size == 0 -%}
   <nav class="header__nav" aria-label="{{ 'general.main_navigation' | t }}">
     <ul class="page-width header__menu">
-      {%- assign demo_children = 'Bestsellers,New Arrivals,Gift Sets,Shop All' | split: ',' -%}
-      {%- for title in demo_menu -%}
+      {%- for item in demo_menu -%}
+        {%- assign parts = item | split: '|' -%}
+        <li class="header__menu-item"><a href="{{ routes.collections_url }}/{{ parts[1] }}">{{ parts[0] }}</a></li>
+      {%- endfor -%}
         <li class="header__menu-item has-dropdown">
-          <a href="{{ routes.all_products_collection_url }}">{{ title }}{% render 'icon', name: 'chevron' %}</a>
+          <a href="{{ routes.all_products_collection_url }}">{{ 'general.shop_all' | t }}{% render 'icon', name: 'chevron' %}</a>
           <ul class="header__dropdown">
-            {%- for child in demo_children -%}<li><a href="{{ routes.all_products_collection_url }}">{{ child }}</a></li>{%- endfor -%}
+            {%- for item in demo_menu -%}{%- assign parts = item | split: '|' -%}<li><a href="{{ routes.collections_url }}/{{ parts[1] }}">{{ parts[0] }}</a></li>{%- endfor -%}
+            <li><a href="{{ routes.all_products_collection_url }}">{{ 'general.shop_all' | t }}</a></li>
           </ul>
         </li>
-      {%- endfor -%}
     </ul>
   </nav>
   {%- else -%}
@@ -141,7 +143,7 @@
     <nav aria-label="{{ 'general.main_navigation' | t }}">
       <ul class="mobile-nav__list">
         {%- if section.settings.show_demo_menu or section.settings.menu.links.size == 0 -%}
-          {%- for title in demo_menu -%}<li><a href="{{ routes.all_products_collection_url }}">{{ title }}</a></li>{%- endfor -%}
+          {%- for item in demo_menu -%}{%- assign parts = item | split: '|' -%}<li><a href="{{ routes.collections_url }}/{{ parts[1] }}">{{ parts[0] }}</a></li>{%- endfor -%}
         {%- endif -%}
         {%- unless section.settings.show_demo_menu -%}
         {%- for link in section.settings.menu.links -%}
