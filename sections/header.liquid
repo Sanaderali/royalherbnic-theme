@@ -1,11 +1,12 @@
 {%- liquid
-  assign demo_menu = 'Shop All,Herbal Teas,Powders,Oils & Elixirs,Wellness Blends,Skin Care,Gift Sets,Our Story' | split: ','
+  assign demo_menu = 'Herbal Teas,Powders,Oils,Wellness Blends,Skin Care,Gift Sets,Bundles,More' | split: ','
   assign transparent = false
   if section.settings.transparent_home and template.name == 'index'
     assign transparent = true
   endif
 -%}
-<header class="header{% if transparent %} header--transparent{% endif %}" data-header{% if transparent %} data-transparent{% endif %}>
+<header class="header{% if transparent %} header--transparent{% endif %}" data-header{% if transparent %} data-transparent{% endif %}
+  style="--h-bg: {{ section.settings.color_bg }}; --h-text: {{ section.settings.color_text }}; --h-icon: {{ section.settings.color_icon }}; --h-border: {{ section.settings.color_border }}; --h-search-bg: {{ section.settings.color_search_bg }}; --h-btn: {{ section.settings.color_button }}; --h-btn-icon: {{ section.settings.color_button_icon }}; --h-badge: {{ section.settings.color_badge }}; --h-badge-text: {{ section.settings.color_badge_text }};">
   <div class="page-width header__top">
     <button class="header__circle header__menu-toggle" type="button" aria-label="{{ 'general.menu' | t }}" aria-expanded="false" aria-controls="MobileNav" data-menu-toggle>
       {% render 'icon', name: 'menu' %}
@@ -33,7 +34,7 @@
     </form>
 
     <div class="header__actions">
-      {%- if section.settings.show_language and localization.available_languages.size > 1 -%}
+      {%- if section.settings.show_language -%}
         {%- form 'localization', class: 'header__lang', id: 'HeaderLanguageForm' -%}
           <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}" data-lang-input>
           <div class="lang">
@@ -51,6 +52,9 @@
                   </button>
                 </li>
               {%- endfor -%}
+              {%- if localization.available_languages.size == 1 -%}
+                <li class="lang__note">{{ 'general.add_language' | t }}</li>
+              {%- endif -%}
             </ul>
           </div>
         {%- endform -%}
@@ -66,10 +70,18 @@
     </div>
   </div>
 
-  {%- if section.settings.menu.links.size == 0 -%}
+  {%- if section.settings.show_demo_menu or section.settings.menu.links.size == 0 -%}
   <nav class="header__nav" aria-label="{{ 'general.main_navigation' | t }}">
     <ul class="page-width header__menu">
-      {%- for title in demo_menu -%}<li class="header__menu-item"><a href="{{ routes.all_products_collection_url }}">{{ title }}</a></li>{%- endfor -%}
+      {%- assign demo_children = 'Bestsellers,New Arrivals,Gift Sets,Shop All' | split: ',' -%}
+      {%- for title in demo_menu -%}
+        <li class="header__menu-item has-dropdown">
+          <a href="{{ routes.all_products_collection_url }}">{{ title }}{% render 'icon', name: 'chevron' %}</a>
+          <ul class="header__dropdown">
+            {%- for child in demo_children -%}<li><a href="{{ routes.all_products_collection_url }}">{{ child }}</a></li>{%- endfor -%}
+          </ul>
+        </li>
+      {%- endfor -%}
     </ul>
   </nav>
   {%- else -%}
@@ -128,6 +140,10 @@
     </div>
     <nav aria-label="{{ 'general.main_navigation' | t }}">
       <ul class="mobile-nav__list">
+        {%- if section.settings.show_demo_menu or section.settings.menu.links.size == 0 -%}
+          {%- for title in demo_menu -%}<li><a href="{{ routes.all_products_collection_url }}">{{ title }}</a></li>{%- endfor -%}
+        {%- endif -%}
+        {%- unless section.settings.show_demo_menu -%}
         {%- for link in section.settings.menu.links -%}
           <li>
             {%- if link.links != blank -%}
@@ -143,9 +159,10 @@
             {%- endif -%}
           </li>
         {%- endfor -%}
+        {%- endunless -%}
       </ul>
     </nav>
-    {%- if localization.available_languages.size > 1 -%}
+    {%- if section.settings.show_language -%}
       <div class="mobile-nav__langs">
         {% render 'icon', name: 'globe' %}
         {%- for language in localization.available_languages -%}
@@ -163,8 +180,19 @@
   "class": "section-header",
   "settings": [
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "checkbox", "id": "show_demo_menu", "label": "Show demo categories", "info": "Untick once your own menu is ready.", "default": true },
     { "type": "text", "id": "search_placeholder", "label": "Search placeholder", "info": "Leave empty to use the translated default." },
-    { "type": "checkbox", "id": "show_language", "label": "Show language switcher", "info": "Appears once a second language (e.g. Urdu) is published in Settings › Languages.", "default": true },
+    { "type": "checkbox", "id": "show_language", "label": "Show language switcher", "info": "Publish Urdu in Settings › Languages to make it selectable.", "default": true },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#1B261E" },
+    { "type": "color", "id": "color_icon", "label": "Icons and pill text", "default": "#6B6F6A" },
+    { "type": "color", "id": "color_border", "label": "Pill borders", "default": "#E3E3DF" },
+    { "type": "color", "id": "color_search_bg", "label": "Search bar background", "default": "#FFFFFF" },
+    { "type": "color", "id": "color_button", "label": "Search button", "default": "#6B6A0A" },
+    { "type": "color", "id": "color_button_icon", "label": "Search button icon", "default": "#FFFFFF" },
+    { "type": "color", "id": "color_badge", "label": "Cart badge", "default": "#6B6A0A" },
+    { "type": "color", "id": "color_badge_text", "label": "Cart badge text", "default": "#FFFFFF" },
     { "type": "checkbox", "id": "transparent_home", "label": "Transparent over home page hero", "default": false },
     { "type": "image_picker", "id": "logo_light", "label": "Light logo for transparent header" },
     { "type": "header", "content": "Mega menu" },

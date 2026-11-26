@@ -36,7 +36,8 @@
       "settings": {
         "menu": "main-menu",
         "transparent_home": false,
-        "show_language": true
+        "show_language": true,
+        "show_demo_menu": true
       }
     }
   },
