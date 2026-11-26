@@ -31,15 +31,15 @@
 
     --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
     --font-heading-weight: {{ settings.font_heading.weight }};
-    --font-heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+    --font-heading-scale: {{ settings.heading_scale | default: 100 | divided_by: 100.0 }};
     --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
     --font-body-weight: {{ settings.font_body.weight }};
-    --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+    --font-body-scale: {{ settings.body_scale | default: 100 | divided_by: 100.0 }};
     --eyebrow-transform: {% if settings.heading_uppercase_eyebrow %}uppercase{% else %}none{% endif %};
 
-    --page-width: {{ settings.page_width }}px;
-    --radius: {{ settings.radius }}px;
-    --radius-lg: calc({{ settings.radius }}px * 1.75);
+    --page-width: {{ settings.page_width | default: 1280 }}px;
+    --radius: {{ settings.radius | default: 12 }}px;
+    --radius-lg: calc({{ settings.radius | default: 12 }}px * 1.75);
     --header-height: 84px;
     --ease: cubic-bezier(.22,.61,.36,1);
   }

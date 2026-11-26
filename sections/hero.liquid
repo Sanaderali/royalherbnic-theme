@@ -44,7 +44,7 @@
           {%- if s.image != blank -%}
             {{ s.image | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 45vw, 100vw', fetchpriority: 'high', loading: 'eager', alt: s.image.alt }}
           {%- else -%}
-            {% render 'botanical-art', variant: 'arch' %}
+            {% render 'demo-image', file: 'rh-hero.svg', loading: 'eager', width: 1100, height: 1375 %}
           {%- endif -%}
         </div>
         {%- if s.image_2 != blank -%}

@@ -57,7 +57,10 @@
           <p class="site-footer__heading">{{ block.settings.heading | default: block.settings.menu.title }}</p>
           <ul class="site-footer__links">
             {%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
-            {%- if block.settings.menu == blank and request.design_mode -%}<li class="site-footer__hint">{{ 'footer.choose_menu' | t }}</li>{%- endif -%}
+            {%- if block.settings.menu == blank -%}
+              {%- assign demo_links = 'Herbal Teas,Powders,Oils & Elixirs,Wellness Blends,Gift Sets' | split: ',' -%}
+              {%- for t in demo_links -%}<li><a href="{{ routes.all_products_collection_url }}">{{ t }}</a></li>{%- endfor -%}
+            {%- endif -%}
           </ul>
         </div>
       {%- endfor -%}

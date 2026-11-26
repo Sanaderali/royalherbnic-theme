@@ -1,7 +1,11 @@
-<section class="newsletter{% if section.settings.image != blank %} newsletter--image{% endif %}">
-  {%- if section.settings.image != blank -%}
-    <div class="newsletter__bg">{{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '800, 1400, 2000', sizes: '100vw' }}</div>
-  {%- endif -%}
+<section class="newsletter newsletter--image">
+  <div class="newsletter__bg">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '800, 1400, 2000', sizes: '100vw' }}
+    {%- else -%}
+      {% render 'demo-image', file: 'rh-wide-leaves.svg', width: 1600, height: 900 %}
+    {%- endif -%}
+  </div>
   <div class="page-width newsletter__inner reveal">
     {% render 'icon', name: 'leaf' %}
     {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}

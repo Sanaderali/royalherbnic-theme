@@ -14,7 +14,10 @@
             {%- if block.settings.image != blank -%}
               {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 600', sizes: '(min-width: 990px) 22vw, 45vw' }}
             {%- else -%}
-              {% render 'botanical-art', variant: 'small' %}
+              {%- assign demo = 'ashwagandha,turmeric,moringa,blackseed' | split: ',' -%}
+              {%- assign d = forloop.index0 | modulo: 4 -%}
+              {%- assign demo_file = 'rh-ingredient-' | append: demo[d] | append: '.svg' -%}
+              {% render 'demo-image', file: demo_file, width: 600, height: 600 %}
             {%- endif -%}
           </div>
           <p class="ingredient__latin">{{ block.settings.latin }}</p>

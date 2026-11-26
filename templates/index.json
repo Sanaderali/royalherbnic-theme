@@ -412,6 +412,83 @@
     "newsletter": {
       "type": "newsletter",
       "settings": {}
+    },
+    "video": {
+      "type": "video",
+      "settings": {}
+    },
+    "gallery": {
+      "type": "gallery",
+      "blocks": {
+        "g0": {
+          "type": "image",
+          "settings": {}
+        },
+        "g1": {
+          "type": "image",
+          "settings": {}
+        },
+        "g2": {
+          "type": "image",
+          "settings": {}
+        },
+        "g3": {
+          "type": "image",
+          "settings": {}
+        },
+        "g4": {
+          "type": "image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "g0",
+        "g1",
+        "g2",
+        "g3",
+        "g4"
+      ],
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "Are your products 100% natural?",
+            "answer": "<p>Yes. Every product is made only from pure herbs and botanicals, with no fillers, binders, artificial colours or preservatives.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "<p>Orders are dispatched within 24 hours and usually arrive in 2 to 4 working days.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "Can I take more than one herb together?",
+            "answer": "<p>Many of our herbs pair well. If you are pregnant, nursing or taking medication, please speak to your doctor first.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "How should I store my herbs?",
+            "answer": "<p>Keep them sealed in a cool, dry place away from direct sunlight to protect freshness and potency.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -423,9 +500,12 @@
     "ingredients",
     "story",
     "process",
+    "video",
     "reviews",
     "compare",
     "press",
+    "gallery",
+    "faq",
     "trust",
     "newsletter"
   ]

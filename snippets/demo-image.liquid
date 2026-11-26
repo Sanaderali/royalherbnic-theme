@@ -1,0 +1,2 @@
+{%- comment -%} Demo artwork shown until a real image is picked. Usage: {% render 'demo-image', file: 'rh-hero.svg', class: '' %} {%- endcomment -%}
+<img src="{{ file | asset_url }}" alt="{{ alt | default: '' | escape }}" loading="{{ loading | default: 'lazy' }}" class="demo-img {{ class }}" width="{{ width | default: 800 }}" height="{{ height | default: 1000 }}">

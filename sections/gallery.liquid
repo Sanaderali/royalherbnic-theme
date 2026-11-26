@@ -10,7 +10,10 @@
           {%- if block.settings.image != blank -%}
             {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 700', sizes: '(min-width: 990px) 20vw, 50vw' }}
           {%- else -%}
-            {% render 'botanical-art', variant: 'tile' %}
+            {%- assign demo = 'turmeric,calm,rosehip,moringa,blackseed,neem,ashwagandha,immunity' | split: ',' -%}
+            {%- assign d = forloop.index0 | modulo: 8 -%}
+            {%- assign demo_file = 'rh-product-' | append: demo[d] | append: '-2.svg' -%}
+            {% render 'demo-image', file: demo_file %}
           {%- endif -%}
         </a>
       {%- endfor -%}

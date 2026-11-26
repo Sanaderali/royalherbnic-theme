@@ -6,7 +6,7 @@
           {%- if section.settings.image != blank -%}
             {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 50vw, 100vw' }}
           {%- else -%}
-            {% render 'botanical-art', variant: 'arch' %}
+            {% render 'demo-image', file: 'rh-story.svg', width: 1000, height: 1250 %}
           {%- endif -%}
         </div>
         {%- if section.settings.image_2 != blank -%}

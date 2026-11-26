@@ -1,6 +1,49 @@
+{%- comment -%}
+  Demo product cards shown when a section has no real products yet.
+  Usage: {% render 'product-card-placeholder', count: 4, offset: 0 %}
+{%- endcomment -%}
+{%- liquid
+  assign keys = 'ashwagandha,turmeric,moringa,blackseed,calm,immunity,neem,rosehip' | split: ','
+  assign titles = 'Ashwagandha Root Powder|Golden Turmeric Latte|Moringa Leaf Powder|Black Seed Oil|Calm Ritual Evening Tea|Immunity Herbal Tonic|Neem & Tulsi Skin Elixir|Rosehip Facial Oil' | split: '|'
+  assign prices = '2400,1900,2200,2900,1600,3200,2700,3400' | split: ','
+  assign compares = '0,2400,0,3500,0,0,3200,0' | split: ','
+  assign ratings = '4.9,4.8,4.7,5.0,4.9,4.8,4.6,4.9' | split: ','
+  assign counts = '214,186,98,301,157,122,74,143' | split: ','
+  assign badges = 'Bestseller,,New,Bestseller,,New,,' | split: ','
+  assign start = offset | default: 0
+-%}
 {%- for i in (1..count) -%}
-  <div class="card">
-    <div class="card__media">{{ 'product-' | append: i | placeholder_svg_tag: 'placeholder' }}</div>
-    <div class="card__body"><h3 class="card__title">{{ 'products.example' | t }}</h3><div class="price"><span class="price__current">{{ 2900 | money }}</span></div></div>
+  {%- assign idx = forloop.index0 | plus: start | modulo: 8 -%}
+  {%- assign key = keys[idx] -%}
+  {%- assign price = prices[idx] | plus: 0 -%}
+  {%- assign compare = compares[idx] | plus: 0 -%}
+  {%- assign img1 = 'rh-product-' | append: key | append: '.svg' -%}
+  {%- assign img2 = 'rh-product-' | append: key | append: '-2.svg' -%}
+  <div class="card card--demo">
+    <div class="card__media card__media--hover">
+      <a href="{{ routes.all_products_collection_url }}" class="card__link" tabindex="-1" aria-hidden="true">
+        {% render 'demo-image', file: img1, alt: titles[idx], class: 'card__img' %}
+        {% render 'demo-image', file: img2, class: 'card__img card__img--secondary' %}
+      </a>
+      <span class="card__badges">
+        {%- if compare > price -%}
+          {%- assign saving = compare | minus: price | times: 100 | divided_by: compare -%}
+          <span class="badge badge--sale">−{{ saving }}%</span>
+        {%- endif -%}
+        {%- if badges[idx] == 'New' -%}<span class="badge badge--new">{{ 'products.new' | t }}</span>{%- endif -%}
+        {%- if badges[idx] == 'Bestseller' -%}<span class="badge badge--gold">{{ 'products.bestseller' | t }}</span>{%- endif -%}
+      </span>
+      {%- if settings.card_quick_add -%}
+        <span class="card__quick"><a href="{{ routes.all_products_collection_url }}" class="button button--light button--full button--small">{{ 'products.add_to_cart' | t }}</a></span>
+      {%- endif -%}
+    </div>
+    <div class="card__body">
+      <h3 class="card__title"><a href="{{ routes.all_products_collection_url }}">{{ titles[idx] }}</a></h3>
+      <div class="card__rating"><span class="stars stars--sm">{%- for s in (1..5) -%}{% render 'icon', name: 'star' %}{%- endfor -%}</span><span class="small muted">{{ ratings[idx] }} ({{ counts[idx] }})</span></div>
+      <div class="price{% if compare > price %} price--sale{% endif %}">
+        <span class="price__current">{{ price | money }}</span>
+        {%- if compare > price -%}<s class="price__compare">{{ compare | money }}</s>{%- endif -%}
+      </div>
+    </div>
   </div>
 {%- endfor -%}

@@ -84,7 +84,7 @@
           {%- for product in collection.products -%}
             <div class="reveal" style="--delay: {{ forloop.index0 | modulo: 4 | times: 60 }}ms">{% render 'product-card', product: product %}</div>
           {%- else -%}
-            <div class="empty-state"><p>{{ 'collections.empty' | t }}</p></div>
+            {% render 'product-card-placeholder', count: 8 %}
           {%- endfor -%}
         </div>
       </div>
